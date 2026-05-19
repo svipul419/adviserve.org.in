@@ -18,7 +18,7 @@ export default async function handler(request: Request) {
     const sql = getDb();
     const docs = await sql`
       SELECT id, slug, title, content, status, updated_at, created_at FROM legal_documents WHERE slug = ${slug} AND status = 'published' LIMIT 1
-    `;
+    ` as Record<string, unknown>[];
     return json(docs.length > 0 ? docs[0] : null, 200, request, 300);
   } catch (err) {
     console.error('Legal API error:', err);

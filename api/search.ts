@@ -32,14 +32,14 @@ export default async function handler(request: Request) {
     // Search blog posts
     let blogs: any[] = [];
     try {
-      blogs = await sql`
+      blogs = (await sql`
         SELECT id, title, slug, excerpt
         FROM blog_posts
         WHERE status = 'published'
           AND (title ILIKE ${searchTerm} OR excerpt ILIKE ${searchTerm})
         ORDER BY created_at DESC
         LIMIT 5
-      `;
+      `) as any[];
     } catch (err) {
       console.error('[search] blog_posts query failed:', err);
       failures++;
@@ -48,13 +48,13 @@ export default async function handler(request: Request) {
     // Search services
     let services: any[] = [];
     try {
-      services = await sql`
+      services = (await sql`
         SELECT id, title, slug, description
         FROM services
         WHERE (title ILIKE ${searchTerm} OR description ILIKE ${searchTerm})
         ORDER BY sort_order ASC
         LIMIT 5
-      `;
+      `) as any[];
     } catch (err) {
       console.error('[search] services query failed:', err);
       failures++;
@@ -63,12 +63,12 @@ export default async function handler(request: Request) {
     // Search FAQ items
     let faqs: any[] = [];
     try {
-      faqs = await sql`
+      faqs = (await sql`
         SELECT id, question, answer
         FROM faq_items
         WHERE (question ILIKE ${searchTerm} OR answer ILIKE ${searchTerm})
         LIMIT 5
-      `;
+      `) as any[];
     } catch (err) {
       console.error('[search] faq_items query failed:', err);
       failures++;

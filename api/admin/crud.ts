@@ -10,7 +10,8 @@
 import { getDb, json, errorResponse, handleCors, rateLimit } from '../_db';
 import { verifyAdmin } from '../_auth';
 
-export const config = { runtime: 'edge' };
+// Node runtime — see api/admin/check.ts for rationale. Supabase JS SDK
+// pulls Node-only built-ins that fail the Edge bundler.
 
 // Tables that admin can access
 const ALLOWED_TABLES = [

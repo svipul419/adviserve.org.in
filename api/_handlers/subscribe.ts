@@ -37,11 +37,12 @@ export default async function handler(request: Request) {
 
     const normalized = email.trim().toLowerCase();
     const sql = getDb();
-    const existing = await sql`SELECT id, status FROM email_subscribers WHERE email = ${normalized} LIMIT 1`;
+    const existing = await sql`SELECT id, status FROM email_subscribers WHERE email = ${normalized} LIMIT 1` as Record<string, unknown>[];
 
     if (existing.length > 0) {
-      if (existing[0].status !== 'active' && existing[0].status !== 'pending') {
-        await sql`UPDATE email_subscribers SET status = 'pending', subscribed_at = NOW() WHERE id = ${existing[0].id}`;
+      const row = existing[0];
+      if (row.status !== 'active' && row.status !== 'pending') {
+        await sql`UPDATE email_subscribers SET status = 'pending', subscribed_at = NOW() WHERE id = ${row.id as string}`;
       }
     } else {
       await sql`
