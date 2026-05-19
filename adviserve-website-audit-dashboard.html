@@ -1,0 +1,1739 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Adviserve Website Audit — Interactive Dashboard</title>
+<style>
+  :root{
+    --bg:#0e0f13;
+    --bg-elev:#15171d;
+    --bg-card:#1a1d26;
+    --bg-soft:#212631;
+    --border:#2a2f3d;
+    --border-soft:#1f2330;
+    --text:#e9eaf0;
+    --text-mute:#a0a4b2;
+    --text-dim:#6c7185;
+    --accent:#d95d39;        /* brand orange from tailwind config hints */
+    --accent-2:#6dd4c4;      /* brand teal */
+    --warn:#f6b84c;
+    --bad:#ef5b5b;
+    --good:#3bc47a;
+    --shadow: 0 10px 40px rgba(0,0,0,.35);
+    --radius:14px;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+    --sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:var(--sans);line-height:1.55;font-size:15px;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent-2);text-decoration:none}
+  a:hover{text-decoration:underline}
+  h1,h2,h3,h4{font-family:var(--sans);letter-spacing:-.01em;line-height:1.2;margin:0 0 .5em}
+  code,kbd{font-family:var(--mono);font-size:.88em;background:#0b0d13;border:1px solid var(--border);border-radius:6px;padding:1px 6px;color:#cbd0e0}
+  pre{font-family:var(--mono);font-size:.86em;background:#0b0d13;border:1px solid var(--border);border-radius:10px;padding:14px 16px;overflow-x:auto;color:#cbd0e0;white-space:pre-wrap;word-break:break-word}
+  /* ─── Header ─── */
+  header.masthead{
+    position:sticky;top:0;z-index:50;background:rgba(14,15,19,.85);backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border);
+  }
+  .masthead-inner{max-width:1400px;margin:0 auto;padding:16px 28px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .mark{display:flex;align-items:center;gap:12px;font-weight:700;font-size:15px;letter-spacing:.02em}
+  .mark .dot{width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 12px var(--accent)}
+  .crumb{font-family:var(--mono);font-size:11px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase}
+  .meta{margin-left:auto;display:flex;gap:18px;font-size:12px;color:var(--text-mute);flex-wrap:wrap}
+  .meta b{color:var(--text)}
+  /* ─── Hero ─── */
+  .hero{max-width:1400px;margin:0 auto;padding:56px 28px 20px}
+  .hero p.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.25em;color:var(--accent);text-transform:uppercase;margin:0 0 14px;display:flex;align-items:center;gap:10px}
+  .hero p.eyebrow::before{content:"";width:30px;height:1px;background:var(--accent)}
+  .hero h1{font-size:clamp(32px,4.8vw,56px);line-height:1.05;margin:0 0 14px}
+  .hero h1 span.accent{color:var(--accent)}
+  .hero p.lead{max-width:820px;color:var(--text-mute);font-size:17px}
+  /* ─── Score row ─── */
+  .scores{max-width:1400px;margin:28px auto 0;padding:0 28px;display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .score{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px}
+  .score .label{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--text-dim);text-transform:uppercase}
+  .score .val{font-size:30px;font-weight:700;margin-top:6px;letter-spacing:-.02em}
+  .score .val small{font-size:13px;color:var(--text-mute);margin-left:4px;font-weight:500}
+  .score.good .val{color:var(--good)}
+  .score.warn .val{color:var(--warn)}
+  .score.bad  .val{color:var(--bad)}
+  .score .hint{font-size:12px;color:var(--text-mute);margin-top:8px}
+  /* ─── Tabs ─── */
+  nav.tabs{max-width:1400px;margin:36px auto 0;padding:0 28px;display:flex;gap:8px;overflow-x:auto;border-bottom:1px solid var(--border);padding-bottom:0}
+  nav.tabs button{
+    appearance:none;border:0;background:transparent;color:var(--text-mute);
+    font-family:var(--sans);font-size:13px;font-weight:600;letter-spacing:.01em;
+    padding:14px 18px;cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;
+    transition:color .2s, border-color .2s, background .2s;
+    display:flex;align-items:center;gap:10px;
+  }
+  nav.tabs button .idx{font-family:var(--mono);font-size:10px;color:var(--text-dim)}
+  nav.tabs button:hover{color:var(--text);background:rgba(255,255,255,.02)}
+  nav.tabs button.active{color:var(--text);border-bottom-color:var(--accent)}
+  nav.tabs button.active .idx{color:var(--accent)}
+  /* ─── Panels ─── */
+  main{max-width:1400px;margin:0 auto;padding:32px 28px 120px}
+  .panel{display:none}
+  .panel.active{display:block;animation:fade .3s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  .panel h2{font-size:30px;margin:0 0 6px}
+  .panel h2 small{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;display:block;margin-bottom:10px}
+  .panel > p.intro{color:var(--text-mute);max-width:900px;font-size:16px;margin:0 0 28px}
+  /* ─── Findings grid ─── */
+  .grid{display:grid;gap:18px;margin-top:18px}
+  .g2{grid-template-columns:repeat(auto-fit,minmax(380px,1fr))}
+  .g3{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+  .card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px}
+  .card h3{font-size:17px;margin:0 0 10px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .card .sub{font-size:12px;color:var(--text-dim);font-family:var(--mono);letter-spacing:.15em;text-transform:uppercase}
+  .card p{margin:0 0 10px;color:var(--text-mute);font-size:14.5px}
+  .card ul{margin:8px 0 4px;padding-left:20px;color:var(--text-mute);font-size:14.5px}
+  .card ul li{margin-bottom:6px}
+  .card b{color:var(--text)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;border-radius:999px;padding:3px 9px;border:1px solid var(--border);color:var(--text-mute)}
+  .pill.p0{background:rgba(239,91,91,.12);border-color:rgba(239,91,91,.5);color:#ff8a8a}
+  .pill.p1{background:rgba(246,184,76,.12);border-color:rgba(246,184,76,.5);color:#ffcb6b}
+  .pill.p2{background:rgba(109,212,196,.12);border-color:rgba(109,212,196,.5);color:#88e4d5}
+  .pill.good{background:rgba(59,196,122,.12);border-color:rgba(59,196,122,.5);color:#7be09e}
+  .pill.new{background:rgba(217,93,57,.12);border-color:rgba(217,93,57,.5);color:#ff9a73}
+  .pill.opt{background:rgba(255,255,255,.04);color:var(--text-mute)}
+  /* ─── Compare blocks ─── */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0}
+  .compare > div{padding:12px 14px;border-radius:10px;font-size:14px;line-height:1.55}
+  .compare .now{background:rgba(239,91,91,.08);border:1px solid rgba(239,91,91,.3);color:#ffd7d7}
+  .compare .next{background:rgba(59,196,122,.08);border:1px solid rgba(59,196,122,.3);color:#d7ffe4}
+  .compare .tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);display:block;margin-bottom:6px}
+  @media (max-width:700px){.compare{grid-template-columns:1fr}}
+  /* ─── Section rows (for IA) ─── */
+  .ia-list{display:grid;gap:8px;margin-top:10px}
+  .ia-row{display:grid;grid-template-columns:40px 1fr 120px;gap:12px;align-items:center;background:var(--bg-soft);border:1px solid var(--border);border-radius:10px;padding:10px 14px;font-size:14px}
+  .ia-row .n{font-family:var(--mono);color:var(--accent);font-size:12px}
+  .ia-row .name b{color:var(--text)}
+  .ia-row .name small{color:var(--text-dim);display:block;font-size:12px}
+  @media (max-width:620px){.ia-row{grid-template-columns:30px 1fr}.ia-row .pill{grid-column:2/3;justify-self:start}}
+  /* ─── Table ─── */
+  table{width:100%;border-collapse:collapse;margin-top:10px;font-size:13.5px}
+  th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border-soft);vertical-align:top}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--text-dim);font-weight:500;background:var(--bg-soft)}
+  td code{font-size:12px}
+  /* ─── Key recommendations summary ─── */
+  .topfix{background:linear-gradient(180deg,rgba(217,93,57,.06),rgba(109,212,196,.04));border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;margin:28px 0}
+  .topfix h3{margin:0 0 10px}
+  .topfix ol{margin:6px 0 0;padding-left:22px;color:var(--text);font-size:15px}
+  .topfix ol li{margin-bottom:6px}
+  .topfix ol li b{color:var(--accent-2)}
+  /* ─── Footer ─── */
+  footer.doc{max-width:1400px;margin:60px auto 0;padding:24px 28px;border-top:1px solid var(--border);color:var(--text-dim);font-size:12px;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  /* ─── Helper ─── */
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  @media (max-width:720px){.two-col{grid-template-columns:1fr}}
+  .kbd-key{display:inline-block;background:#0b0d13;border:1px solid var(--border);border-bottom-width:2px;border-radius:6px;padding:1px 6px;font-family:var(--mono);font-size:11px;color:#cbd0e0}
+  hr.soft{border:0;border-top:1px solid var(--border-soft);margin:22px 0}
+  .muted{color:var(--text-mute)}
+  .small{font-size:13px;color:var(--text-mute)}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="mark"><span class="dot"></span>Adviserve</div>
+    <span class="crumb">/ website audit / 2026-04-24</span>
+    <div class="meta">
+      <span><b>Stack</b> React 18 · Vite · Tailwind · Supabase</span>
+      <span><b>Audience</b> B2B · India-first</span>
+      <span><b>Services</b> 6 practices + 3 products</span>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <p class="eyebrow">Comprehensive audit · 9 parameters</p>
+  <h1>A prioritized playbook to make <span class="accent">adviserve.in</span> sell products and services more clearly.</h1>
+  <p class="lead">
+    Full audit of the current site (<code>adviserve-website.vercel.app</code>) across Content, SEO, AEO, GEO, UI/UX Design, UX Enhancements, Content Order, Footer, and Imagery — plus a competitive read, accessibility findings, new pages you should add, and a tech-debt punch list. Every recommendation is tagged P0 / P1 / P2 and links to the exact section or file.
+  </p>
+</section>
+
+<section class="scores">
+  <div class="score warn"><div class="label">Overall Site Score</div><div class="val">62<small>/100</small></div><div class="hint">Strong design language, weak conversion architecture.</div></div>
+  <div class="score bad"><div class="label">Content Clarity</div><div class="val">58<small>/100</small></div><div class="hint">Tone is sharp, but Products/DPDP/HRMS are buried.</div></div>
+  <div class="score bad"><div class="label">SEO</div><div class="val">48<small>/100</small></div><div class="hint">SPA with no sitemap/robots, no canonical host, weak schema.</div></div>
+  <div class="score bad"><div class="label">AEO / GEO</div><div class="val">32<small>/100</small></div><div class="hint">Nothing optimized for LLM answers yet.</div></div>
+  <div class="score warn"><div class="label">UI / UX</div><div class="val">70<small>/100</small></div><div class="hint">Premium aesthetic, heavy motion, some hierarchy issues.</div></div>
+  <div class="score warn"><div class="label">Accessibility</div><div class="val">66<small>/100</small></div><div class="hint">Good skip-link &amp; a11y starts; contrast &amp; motion gaps.</div></div>
+  <div class="score bad"><div class="label">Conversion Depth</div><div class="val">44<small>/100</small></div><div class="hint">Single "Book" CTA; no lead magnets, pricing, calculators.</div></div>
+  <div class="score warn"><div class="label">Performance</div><div class="val">64<small>/100</small></div><div class="hint">Heavy 3D libs, GSAP, Framer, Three loaded; split further.</div></div>
+</section>
+
+<div class="topfix" style="max-width:1400px;margin-left:auto;margin-right:auto;padding-left:24px;padding-right:24px;">
+  <h3>Top 10 highest-impact fixes (do these first)</h3>
+  <ol>
+    <li><b>Fix the canonical host.</b> <code>index.html</code> uses <code>adviserve-website.vercel.app</code> in OG; <code>SEOHead</code> canonicalizes to <code>adviserve.in</code>. Pick one, 301 the other, fix sitemap + canonical + OG.</li>
+    <li><b>Add a public-facing Products section on the homepage above the fold,</b> not below Industries. Products (HRMS, ATS, DPDP) are a pricing-led lead magnet; today they are at 00.05° behind 5 sections.</li>
+    <li><b>Merge the split: Services list is HR-heavy and excludes DPDP, HRMS, Custom Development, Corporate Training product angle.</b> Add dedicated service pages for <i>HRMS Implementation</i>, <i>DPDP Consulting</i>, <i>Custom Development</i>, <i>Cybersecurity</i>, <i>Managed IT</i>.</li>
+    <li><b>Write an Answer-Engine FAQ layer on every service &amp; product page</b> (see AEO tab) with Q&A schema — ChatGPT/Perplexity/Google AIO pull from these.</li>
+    <li><b>Add 3 lead magnets:</b> free DPDP readiness assessment, HRMS ROI calculator, Labour-law state matrix. These are the exact assets your ICP searches for.</li>
+    <li><b>Rebuild the footer.</b> Current footer has 3 columns (Contact / Nav / Subscribe) — no services, products, resources, cities, case studies, or sitemap links. Footers this sparse actively hurt SEO.</li>
+    <li><b>Add a Pricing page (or transparent tier bands on each product).</b> DPDP says "from ₹8,000/mo" and HRMS says "Free up to 50" — these are pricing moments buried in prose.</li>
+    <li><b>Add Case Studies detail content.</b> Four case study cards exist but no real outcomes, logos, or metrics. Case studies are the #1 sales asset you don't have.</li>
+    <li><b>Introduce GEO city pages:</b> <i>/locations/bengaluru</i>, <i>/mumbai</i>, <i>/gurugram</i>, <i>/pune</i>, <i>/hyderabad</i>, <i>/delhi-ncr</i>. Attaches "HR services in {city}" intent.</li>
+    <li><b>Kill the claim inconsistency.</b> Homepage says "3,000+ Placements, 96% Retention, 25+ Industries" but defaults say "2017 founding". Either substantiate with case studies or soften claims — mismatched proof erodes trust.</li>
+  </ol>
+</div>
+
+<nav class="tabs" role="tablist" aria-label="Audit sections">
+  <button class="tab-btn active" data-tab="content"><span class="idx">01</span>Content</button>
+  <button class="tab-btn" data-tab="seo"><span class="idx">02</span>SEO</button>
+  <button class="tab-btn" data-tab="aeo"><span class="idx">03</span>AEO</button>
+  <button class="tab-btn" data-tab="geo"><span class="idx">04</span>GEO</button>
+  <button class="tab-btn" data-tab="ui"><span class="idx">05</span>UI/UX Design</button>
+  <button class="tab-btn" data-tab="ux"><span class="idx">06</span>UX Enhancements</button>
+  <button class="tab-btn" data-tab="order"><span class="idx">07</span>Content Order</button>
+  <button class="tab-btn" data-tab="footer"><span class="idx">08</span>Footer</button>
+  <button class="tab-btn" data-tab="images"><span class="idx">09</span>Imagery</button>
+  <button class="tab-btn" data-tab="newpages"><span class="idx">+</span>Missing Pages</button>
+  <button class="tab-btn" data-tab="a11y"><span class="idx">+</span>Accessibility</button>
+  <button class="tab-btn" data-tab="competitive"><span class="idx">+</span>Competitive</button>
+  <button class="tab-btn" data-tab="tech"><span class="idx">+</span>Tech Debt</button>
+  <button class="tab-btn" data-tab="roadmap"><span class="idx">→</span>90-Day Roadmap</button>
+</nav>
+
+<main>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 01 CONTENT                                                     -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel active" id="panel-content" role="tabpanel">
+  <h2><small>01 — Content</small>Your messaging is sharp, but it's selling the wrong thing.</h2>
+  <p class="intro">
+    Today the homepage narrates one story: <i>"Six practices, one roof, one advisory partner."</i> That's great for consulting-oriented buyers. But Adviserve is now a <b>products + services</b> company — HRMS, ATS, DPDP Compliance on one side; HR / Legal / Training / Consulting / IT / Custom Development on the other. The content doesn't yet separate those two journeys, so a buyer searching for "HRMS software India" and a buyer searching for "HR consulting Mumbai" both land on the same consulting pitch.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Homepage hero <span class="pill p0">P0</span></h3>
+      <p class="sub">Section 00.01°</p>
+      <div class="compare">
+        <div class="now"><span class="tag">Now</span>"India's integrated advisory. Under one roof. Adviserve is a new-age services firm…"</div>
+        <div class="next"><span class="tag">Recommended</span>"Products &amp; services to run every back-office function of your business. From HRMS and DPDP compliance to HR, legal, and custom software — one team, six disciplines, zero vendor juggling."</div>
+      </div>
+      <p>Lead with the <b>product + service</b> duality. Add a dual CTA: <i>"Explore Products"</i> (ungated, self-serve) and <i>"Talk to an advisor"</i> (sales).</p>
+    </div>
+
+    <div class="card">
+      <h3>Marquee strip <span class="pill p2">P2</span></h3>
+      <p class="sub">Just under hero</p>
+      <p>Current items: <code>Recruitment · HR Services · Corporate Training · Business Consulting · Legal Advisory · IT Solutions · Compliance · Digital Transformation</code>.</p>
+      <p><b>Add</b> the product names so the marquee also doubles as discovery: <code>Adviserve People (HRMS) · Adviserve Hire (ATS) · Adviserve Comply (DPDP) · Custom Software · Managed IT · Cybersecurity · POSH · ISO 27001</code>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Problem / Shift / Result tabs <span class="pill p1">P1</span></h3>
+      <p class="sub">Section 00.02°</p>
+      <p>The storytelling works, but the <b>Problem</b> card uses a generic Unsplash image and abstract language ("five invoices"). Replace with a concrete India-specific pain: <i>"You're a 120-person company. HR vendor A runs payroll, agency B recruits, CA firm C files PF, law firm D handles POSH, dev shop E maintains your HRMS. Each invoice in a different format. You spend ₹4L/month and nobody talks."</i></p>
+      <p>That specificity is what converts.</p>
+    </div>
+
+    <div class="card">
+      <h3>Practices accordion <span class="pill p1">P1</span></h3>
+      <p class="sub">Section 00.03°</p>
+      <p>Good structure. Two gaps:</p>
+      <ul>
+        <li>Only 6 services shown — but the business really has 8+. <b>Add</b> Custom Development, Managed IT / Cloud, Cybersecurity as first-class entries (currently buried inside IT Services).</li>
+        <li>Each accordion tile needs a <b>"Starting at" price anchor</b> and a <b>"What's typical engagement length"</b> line. Buyers self-filter on both.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Products section <span class="pill p0">P0</span></h3>
+      <p class="sub">Section 00.05° — move higher</p>
+      <p>This is the single biggest content miss. Products are <b>the entry point for self-serve leads</b> (free HRMS up to 50 employees, free DPDP assessment). They are sitting below Process and Practices.</p>
+      <ul>
+        <li>Move Products to <b>position #3</b> (right after hero + one social-proof row).</li>
+        <li>For each product: add an inline <b>"Watch 90-sec demo"</b>, a <b>pricing band</b>, and a "Book free assessment" CTA.</li>
+        <li>DPDP has a dedicated landing page; HRMS and ATS need one with feature matrices, integrations, and comparison tables (see AEO tab).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Industries strip <span class="pill p2">P2</span></h3>
+      <p class="sub">Section 00.06°</p>
+      <p>Good list: Technology, Healthcare, Finance, Manufacturing, E-Commerce, Education. <b>Add</b> Fintech/BFSI (regulatory depth), SaaS/Startups, D2C, Real Estate, Logistics — these are high-intent segments in India's advisory market.</p>
+      <p>Each industry chip should link to a dedicated <code>/industries/{slug}</code> page with 3–5 industry-specific case studies and a sector-specific compliance checklist.</p>
+    </div>
+
+    <div class="card">
+      <h3>"Why Adviserve" benefits <span class="pill p1">P1</span></h3>
+      <p class="sub">Section 00.07°</p>
+      <p>6 benefit cards. Four are differentiators ("6 practices one partner", "48-hr kickoff", "Transparent pricing", "We take ownership"). Two overlap ("Startup energy, senior expertise" and "Built for how businesses actually work" — vague).</p>
+      <p><b>Replace</b> the weak ones with: <i>"Fixed-fee SOWs, not hourly billing"</i> and <i>"Product + service: same team runs your HRMS and your HR policy"</i>.</p>
+    </div>
+
+    <div class="card">
+      <h3>Testimonials <span class="pill p0">P0</span></h3>
+      <p class="sub">Section 00.08°</p>
+      <p>All 5 testimonials are <b>anonymized archetypes</b> per your own code comments (<code>defaults.ts</code> line 360). This is a credibility killer — buyers spot this in 3 seconds.</p>
+      <ul>
+        <li>Replace with 3 <b>real, named clients</b> (with logo + LinkedIn link + headshot). Even 1 real quote beats 5 anonymous ones.</li>
+        <li>Until you have permissioned quotes, <b>remove the section</b> entirely and replace with a "logo wall" of client logos (with written permission).</li>
+        <li>Alternative if no logos allowed: a <b>stats band</b> — "3,000 placements · 96% retention · 25 industries · ₹Xcr under engagement".</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Stats inconsistency <span class="pill p0">P0</span></h3>
+      <p>Hero subtitle on <code>Home.tsx</code> claims "3,000+ placements, 96% retention, 25+ industries". Structured data says <code>foundingDate: 2017</code>. If you've been running 9 years and placed 3,000 people, that's 333/year — plausible, but say it out loud in an "About the numbers" subpage with the methodology. Unverified big numbers look aspirational; verified big numbers close deals.</p>
+    </div>
+
+    <div class="card">
+      <h3>About page story <span class="pill p1">P1</span></h3>
+      <p>The 2017 founding story (<code>DEFAULT_STORY_PARAGRAPHS</code>) is clean but ends abruptly. Add three sections: <b>Where we are now</b> (locations, team size, clients served), <b>What we've built</b> (products shipped, IP, frameworks), <b>Where we're going</b> (next 12-month roadmap, e.g. product expansions, new practices).</p>
+    </div>
+
+    <div class="card">
+      <h3>Voice &amp; tone check <span class="pill good">Strong</span></h3>
+      <p>The voice is genuinely good — crisp, specific, second-person, low-jargon ("Stop being the switchboard", "Five vendors. Five silos. Five invoices."). Keep it. A few tone drift moments to clean up:</p>
+      <ul>
+        <li>"New-age services firm" → remove ("new-age" is a tell of corporate copy).</li>
+        <li>"Startup energy, senior expertise" → cliché; replace.</li>
+        <li>The headline "Let us figure out / what your business needs" in the footer CTA is flabby; try <i>"Tell us the problem. We'll bring the team."</i></li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Missing service content <span class="pill p1">P1</span></h3>
+      <p>Services currently shown: Recruitment, HR, Corporate Training, Business Consulting, Legal Consulting, IT Services. <b>Missing from the public site but implied in your products / roadmap:</b></p>
+      <ul>
+        <li>Custom Software Development (separate from IT Services)</li>
+        <li>HRMS Implementation (distinct from HR Services and from Adviserve People)</li>
+        <li>DPDP Compliance Consulting (separate from Adviserve Comply)</li>
+        <li>POSH Compliance (implied inside HR/Legal; deserves a page — high-search intent in India)</li>
+        <li>Payroll Outsourcing (mentioned inline; should be its own offer)</li>
+        <li>Cybersecurity / ISO 27001 Audit (your footer shows ISO 27001 cert — make it a sellable service)</li>
+        <li>Staff Augmentation (mentioned once in IT; deserves an SEO page — huge India search volume)</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Blog / Resources <span class="pill p1">P1</span></h3>
+      <p>The <code>Blog.tsx</code> and <code>NewsletterArchive.tsx</code> pages exist but content strategy isn't visible. <b>Build a content pillar plan:</b></p>
+      <ul>
+        <li><b>Pillar 1 — DPDP Act:</b> 15 articles (compliance checklist, fines, consent management, DPO role). This is top-of-funnel SEO right now.</li>
+        <li><b>Pillar 2 — HRMS selection:</b> comparison guides (Keka vs Zoho People vs Darwinbox vs Adviserve People) — ranks fast.</li>
+        <li><b>Pillar 3 — Hiring playbooks:</b> "How to hire 50 engineers in 90 days", "Executive search in India".</li>
+        <li><b>Pillar 4 — POSH / Labour law:</b> state-wise guides, POSH IC formation, minimum wage updates.</li>
+        <li><b>Pillar 5 — Startup operations:</b> from-zero playbooks (first HR policy, first ESOP plan, first legal entity).</li>
+      </ul>
+    </div>
+  </div>
+
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 02 SEO                                                         -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-seo" role="tabpanel">
+  <h2><small>02 — SEO</small>Technical SEO is the biggest single lever on this site.</h2>
+  <p class="intro">
+    The site is a client-rendered React SPA. Meta tags are injected via <code>react-helmet-async</code> which is great for users with modern crawlers (Google, Bing) but you still need the fundamentals — sitemap, robots, one canonical domain, and a real server-side or SSR-prerendered HTML fallback. Today you're missing almost all of them.
+  </p>
+
+  <div class="topfix" style="margin-top:8px">
+    <h3>The biggest SEO problem: two hosts, one canonical confusion</h3>
+    <p class="small"><code>index.html</code> uses <code>https://adviserve-website.vercel.app</code> for OG/Twitter tags. <code>SEOHead</code> in every page sets canonical to <code>https://adviserve.in</code>. Google is currently indexing <b>both</b>, splitting authority. First fix: decide the canonical host (almost certainly <code>adviserve.in</code>), 301-redirect the Vercel preview domain to it, update <code>index.html</code>, update <code>SITE_URL</code> in <code>src/lib/constants.ts</code>, and submit a single sitemap.</p>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Sitemap &amp; robots <span class="pill p0">P0</span></h3>
+      <p><code>/public</code> has no <code>sitemap.xml</code> or <code>robots.txt</code>. For an SPA behind Vercel that's critical.</p>
+      <p><b>Fix:</b></p>
+      <ul>
+        <li>Generate <code>public/robots.txt</code> with <code>Sitemap: https://adviserve.in/sitemap.xml</code>.</li>
+        <li>Add a build-time sitemap generator (<code>vite-plugin-sitemap</code> or a small Node script reading <code>DEFAULT_SERVICES</code>, <code>DEFAULT_HOME_PRODUCTS</code>, blog posts from Supabase).</li>
+        <li>Generate per-type sitemaps: <code>sitemap-services.xml</code>, <code>sitemap-products.xml</code>, <code>sitemap-blog.xml</code>, <code>sitemap-case-studies.xml</code>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>SPA pre-rendering <span class="pill p0">P0</span></h3>
+      <p>Right now <code>view-source:adviserve.in/services/recruitment</code> shows an empty <code>&lt;div id="root"&gt;</code>. Googlebot can render JS, but competing pages that ship HTML beat you on crawl efficiency.</p>
+      <p><b>Options (easy → hard):</b></p>
+      <ul>
+        <li><b>Easy:</b> Add <code>vite-plugin-ssr-prerender</code> or <code>react-snap</code> to pre-render all known static routes at build time. Zero runtime cost.</li>
+        <li><b>Medium:</b> Migrate to Vite SSR mode for dynamic pages (blog, services) pulling from Supabase.</li>
+        <li><b>Right-answer:</b> Move to Next.js App Router. This project has already grown into content-heavy territory where SSR pays dividends.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Title &amp; description templates <span class="pill p1">P1</span></h3>
+      <p>Current homepage title: <i>"Adviserve — End-to-End HR, Recruitment &amp; Business Services"</i> (60 chars — fine). But then <code>SEOHead</code> wraps every page title with <code>| Adviserve</code>, so deep pages become <i>"Business Advisory Services | Recruitment, HR, Legal, IT | Adviserve | Adviserve"</i> — double-branded.</p>
+      <p><b>Fix:</b> In <code>SEOHead.tsx</code>, detect if the title already ends with "Adviserve" and skip the suffix. Also keep all titles ≤ 60 chars.</p>
+      <p><b>Meta descriptions</b> — write 140–155 char unique descriptions per page. Today, most inherit the hero subtitle which is too long and not keyword-scoped.</p>
+    </div>
+
+    <div class="card">
+      <h3>Headings &amp; semantic structure <span class="pill p1">P1</span></h3>
+      <p>Home.tsx uses <code>&lt;h2&gt;</code> correctly per section but <b>no <code>&lt;h1&gt;</code> is rendered server-side</b> (it's inside <code>ModernHeroDemo</code> which may or may not expose h1). Verify every public page has exactly <b>one h1</b> matching the SEO title concept.</p>
+      <p>Several sections use <code>div</code> with styled text for what should be <code>h3</code> (e.g. accordion titles, process step names).</p>
+    </div>
+
+    <div class="card">
+      <h3>Structured data expansion <span class="pill p1">P1</span></h3>
+      <p><code>structuredData.ts</code> has a good foundation: <code>ProfessionalService</code>, <code>FAQPage</code>, <code>BreadcrumbList</code>, <code>Service</code>, <code>BlogPosting</code>, <code>WebPage</code>. <b>Missing</b>:</p>
+      <ul>
+        <li><code>SoftwareApplication</code> schema for each product (HRMS People, Hire ATS, Comply DPDP) — exposes pricing, screenshots, ratings.</li>
+        <li><code>Product</code> + <code>Offer</code> for products (lets you rank in product carousels).</li>
+        <li><code>Review</code> / <code>AggregateRating</code> — once you have real reviews.</li>
+        <li><code>JobPosting</code> for each career role (pull from <code>DEFAULT_CAREERS_POSITIONS</code>).</li>
+        <li><code>LocalBusiness</code> per city page (see GEO tab).</li>
+        <li><code>Event</code> for webinars if you run any.</li>
+        <li><code>HowTo</code> for process-type blog posts.</li>
+        <li><code>VideoObject</code> for product demos (embeds &amp; auto-indexing).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Keyword gap — target intent <span class="pill p0">P0</span></h3>
+      <p>Current <code>&lt;meta name="keywords"&gt;</code> says: <i>"HR services, recruitment, business consulting, legal consulting, IT consulting, software development, India"</i>. Keywords meta is dead — but the <b>intent</b> behind it is revealing: this is all service-led, no product-led terms.</p>
+      <p><b>Target keyword buckets you're not covering</b>:</p>
+      <table>
+        <tr><th>Intent</th><th>Keyword</th><th>Priority</th></tr>
+        <tr><td>Product</td><td>best HRMS software India</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Product</td><td>free HRMS small business</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Product</td><td>DPDP Act compliance tool</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Product</td><td>applicant tracking system India</td><td><span class="pill p1">P1</span></td></tr>
+        <tr><td>Comparison</td><td>Keka vs Darwinbox</td><td><span class="pill p1">P1</span></td></tr>
+        <tr><td>Local</td><td>HR consultant Bengaluru / Mumbai / Gurugram</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Local</td><td>recruitment agency Pune / Hyderabad</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Regulatory</td><td>DPDP Act 2023 summary</td><td><span class="pill p0">P0</span></td></tr>
+        <tr><td>Regulatory</td><td>POSH compliance checklist India</td><td><span class="pill p1">P1</span></td></tr>
+        <tr><td>How-to</td><td>how to hire 50 engineers in 90 days</td><td><span class="pill p2">P2</span></td></tr>
+        <tr><td>Pricing</td><td>HRMS pricing India per employee</td><td><span class="pill p1">P1</span></td></tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>Internal linking <span class="pill p1">P1</span></h3>
+      <p>Right now services and products exist in isolation. Add these crosslinks:</p>
+      <ul>
+        <li>Every service page → related case studies (2–3) + the matching product.</li>
+        <li>Every product page → related services (policy + implementation) + 3 related blog posts.</li>
+        <li>Blog posts → service/product CTAs in-article (not just at the end).</li>
+        <li>Case studies → every practice referenced, linked.</li>
+        <li>Home accordion tile → service detail (exists) + service category hub (new).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>URL structure <span class="pill p2">P2</span></h3>
+      <p>Current routes:</p>
+      <pre>/services            → list
+/services/:slug       → category (new, good)
+/services/:category/:slug  → detail (good)
+/products            → list
+/products/:slug       → detail
+/case-studies/:slug  → detail
+/blog/:slug          → detail</pre>
+      <p><b>Add:</b></p>
+      <pre>/locations/:city        → GEO pages
+/industries/:slug        → industry hubs
+/guides/:slug           → long-form evergreen
+/resources/:slug        → downloadable lead magnets
+/tools/:slug            → calculators (ROI, DPDP readiness, labour-law)
+/compare/:a-vs-:b       → product comparison pages</pre>
+    </div>
+
+    <div class="card">
+      <h3>Core Web Vitals <span class="pill p1">P1</span></h3>
+      <p>The homepage loads:</p>
+      <ul>
+        <li>Three.js + React-Three-Fiber (<code>~600KB</code> gzipped) — heavy for homepage.</li>
+        <li>GSAP + ScrollTrigger + Lenis + Framer Motion — redundant animation stacks.</li>
+        <li>Multiple animated sections above the fold.</li>
+      </ul>
+      <p><b>Actions:</b></p>
+      <ul>
+        <li>Lazy-load Three.js only on sections that use it; remove it from the homepage entirely if possible.</li>
+        <li>Pick <i>one</i> animation library. GSAP + ScrollTrigger is the most powerful for your use case — deprecate Framer Motion outside of the components that truly need it.</li>
+        <li>Pre-load the hero image with <code>&lt;link rel="preload" as="image"&gt;</code>.</li>
+        <li>Add <code>fetchpriority="high"</code> to above-fold images, <code>loading="lazy"</code> everywhere else (already done in places — audit all).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Image SEO <span class="pill p1">P1</span></h3>
+      <p>Homepage tab cards use Unsplash images (CDN-hosted) with generic alt text: <code>alt="Problem"</code>, <code>alt="Shift"</code>. This is a miss.</p>
+      <ul>
+        <li>Host all imagery on your own domain (<code>/images/...</code>) — or use Vercel's image optimizer. Unsplash hotlinks are fragile and give zero SEO credit.</li>
+        <li>Replace alt text with descriptive, keyword-bearing strings: <i>"HR consultant coordinating recruitment, legal and payroll handoffs for an Indian mid-market company"</i>.</li>
+        <li>Use <code>.webp</code> / <code>.avif</code> with <code>&lt;picture&gt;</code>. Current stock images are <code>.jpg</code>.</li>
+        <li>Name files semantically: <code>dpdp-compliance-dashboard-india.webp</code>, not <code>photo-1552664730-d307ca884978.jpg</code>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 03 AEO                                                         -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-aeo" role="tabpanel">
+  <h2><small>03 — AEO · Answer Engine Optimization</small>Write for ChatGPT, Perplexity, Google AIO, Claude, Gemini.</h2>
+  <p class="intro">
+    AEO is SEO's next phase — optimizing for AI answer engines. In India, ChatGPT Search and Perplexity are already used for B2B vendor research. Your site has <b>no AEO layer</b> today. The good news: you already have a FAQ system (<code>DEFAULT_FAQS</code>) and FAQ schema. Scale it and restructure your content the way LLMs consume.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Rewrite for extractive Q&amp;A <span class="pill p0">P0</span></h3>
+      <p>LLMs pull 1–3 sentence answers. Restructure every service and product page into an answer-first format:</p>
+      <div class="compare">
+        <div class="now"><span class="tag">Now — narrative</span>"We provide end-to-end human resource services for organisations that need professional HR support without the overhead of a full in-house team…"</div>
+        <div class="next"><span class="tag">AEO — answer-first</span><b>What does Adviserve HR Services include?</b><br>Adviserve HR Services covers policy design, payroll processing, compliance (PF/ESI/POSH/LWF), performance management, HRIS implementation, and fractional CHRO leadership. Pricing starts at ₹X/employee/month for payroll-only engagements and scales to full-function outsourcing.</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Canonical FAQ block on every page <span class="pill p0">P0</span></h3>
+      <p>For every product, service, industry, and city page, add a <b>"People also ask"</b> section with 6–10 Q&amp;As and FAQPage schema. Source the questions from:</p>
+      <ul>
+        <li><i>People Also Ask</i> on Google for your target keyword.</li>
+        <li>Perplexity / ChatGPT — literally ask "What questions do companies ask before buying HRMS in India?" — use top 10.</li>
+        <li>Your own sales/support inbox and call transcripts.</li>
+      </ul>
+      <p>Your existing <code>generateFAQSchema()</code> is already wired up — just add the data.</p>
+    </div>
+
+    <div class="card">
+      <h3>The "factual block" pattern <span class="pill p1">P1</span></h3>
+      <p>LLMs love structured facts they can lift. On every product and service page, add a machine-readable facts block:</p>
+      <pre>Adviserve People (HRMS)
+- Category: HRMS / HRIS
+- Built for: Indian businesses, 10–2,000 employees
+- Compliance modules: PF, ESI, PT, LWF, Gratuity, POSH
+- Pricing: Free ≤50 employees · ₹X/employee above
+- Integrations: Naukri, WhatsApp, Razorpay
+- Hosted: India (AWS Mumbai)
+- Data: encrypted at rest · DPDP-compliant
+- Support: English &amp; Hindi, 9 AM–9 PM IST
+- Free trial: yes
+- Setup time: &lt; 48 hours
+- Exit: full data export, no lock-in</pre>
+      <p>Render it as a styled spec table AND expose it as JSON-LD <code>SoftwareApplication</code>. LLMs extract both.</p>
+    </div>
+
+    <div class="card">
+      <h3>Citation-friendly content <span class="pill p1">P1</span></h3>
+      <p>Perplexity and ChatGPT cite sources with author + date + URL. Your blog posts need:</p>
+      <ul>
+        <li>Visible author byline with a <code>rel="author"</code> link to a real author page (with credentials, LinkedIn, headshot).</li>
+        <li>Published + last-updated dates.</li>
+        <li>Numbered stats with sources (e.g. <i>"MeitY DPDP Bill, 2023, §17(2)"</i>).</li>
+        <li>Schema: <code>Article</code> with <code>author</code>, <code>datePublished</code>, <code>dateModified</code>, <code>publisher</code>.</li>
+      </ul>
+      <p>AI engines prefer quoting dated expert pages over undated marketing pages.</p>
+    </div>
+
+    <div class="card">
+      <h3>Comparison &amp; alternative pages <span class="pill p0">P0</span></h3>
+      <p>LLMs dominate comparison queries. Build honest comparison pages:</p>
+      <ul>
+        <li><code>/compare/adviserve-people-vs-keka</code></li>
+        <li><code>/compare/adviserve-people-vs-zoho-people</code></li>
+        <li><code>/compare/adviserve-people-vs-darwinbox</code></li>
+        <li><code>/compare/adviserve-comply-vs-tsaaro</code></li>
+        <li><code>/compare/adviserve-hire-vs-naukri-ats</code></li>
+      </ul>
+      <p>Each page = feature matrix + pricing + honest "use Keka if…" section. Being honest about when not to pick you = massive trust signal.</p>
+    </div>
+
+    <div class="card">
+      <h3>"Definition" pages <span class="pill p1">P1</span></h3>
+      <p>ChatGPT answers queries like "what is DPDP act" by pulling a dictionary-style definition. Claim it:</p>
+      <ul>
+        <li><code>/glossary/dpdp-act</code></li>
+        <li><code>/glossary/posh-compliance</code></li>
+        <li><code>/glossary/employer-of-record</code></li>
+        <li><code>/glossary/hrms-vs-hris-vs-hcm</code></li>
+        <li><code>/glossary/rpo</code> (Recruitment Process Outsourcing)</li>
+      </ul>
+      <p>Use <code>DefinedTerm</code> schema. 400–600 words each. Link to your service pages.</p>
+    </div>
+
+    <div class="card">
+      <h3>LLM-ready site summary page <span class="pill p1">P1</span></h3>
+      <p>Create <code>/llms.txt</code> (emerging standard) and <code>/about/company-facts</code> — a single page where an LLM can find:</p>
+      <ul>
+        <li>Legal name, founded, HQ, offices.</li>
+        <li>Founders, current leadership, total team size.</li>
+        <li>All services, all products, pricing summaries.</li>
+        <li>Client count, industries served, geographies.</li>
+        <li>Press mentions, certifications, awards.</li>
+      </ul>
+      <p>This is what models pull into their knowledge graph. Make the truth easy to find.</p>
+    </div>
+
+    <div class="card">
+      <h3>Bullet &amp; table density <span class="pill p2">P2</span></h3>
+      <p>LLMs over-index on tables and bulleted lists. Your current service content is paragraph-heavy. Convert 40% of paragraphs to bullets or tables. Example:</p>
+      <div class="compare">
+        <div class="now"><span class="tag">Now</span>"We handle the entire recruitment lifecycle — from workforce planning and job profiling to sourcing, screening, interviewing, and onboarding."</div>
+        <div class="next"><span class="tag">AEO</span><b>Recruitment lifecycle — what Adviserve owns:</b><br>• Workforce planning<br>• Job profiling<br>• Sourcing &amp; screening<br>• Interviewing &amp; assessment<br>• Offer &amp; negotiation<br>• Onboarding</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Entities &amp; relationships <span class="pill p2">P2</span></h3>
+      <p>LLMs represent knowledge as entity graphs. Strengthen yours by consistently naming entities:</p>
+      <ul>
+        <li>Always call your HRMS <b>Adviserve People</b> (not "our HRMS" or "the portal"). Consistent naming = stronger entity recognition.</li>
+        <li>Link founder &amp; leader names to a Team page with <code>Person</code> schema.</li>
+        <li>Mention concrete integrations by name (Naukri.com, WhatsApp Business, Razorpay, GreytHR, Darwinbox, Keka, AWS, Azure) — these become entity bridges.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 04 GEO                                                         -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-geo" role="tabpanel">
+  <h2><small>04 — GEO · Generative/Geographic Engine Optimization</small>Two meanings — and you're weak on both.</h2>
+  <p class="intro">
+    "GEO" means two things in 2026: (1) <b>Generative Engine Optimization</b> (overlaps with AEO — mostly covered above) and (2) <b>Geographic Optimization</b> — ranking for "in &lt;city&gt;" searches. Your audience is pan-India B2B. You currently target zero cities. This is the largest under-exploited SEO surface on the site.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>City landing pages <span class="pill p0">P0</span></h3>
+      <p>Launch <b>6 priority cities</b> first:</p>
+      <ul>
+        <li><code>/locations/bengaluru</code> — tech, startups, RPO</li>
+        <li><code>/locations/mumbai</code> — BFSI, media, manufacturing</li>
+        <li><code>/locations/delhi-ncr</code> (Gurugram, Noida, Delhi) — enterprise &amp; consulting</li>
+        <li><code>/locations/pune</code> — IT &amp; auto</li>
+        <li><code>/locations/hyderabad</code> — tech &amp; pharma</li>
+        <li><code>/locations/chennai</code> — manufacturing, GCCs</li>
+      </ul>
+      <p>Each page = unique content (local market context, regulations specific to state, case studies from that city, office address if any, local team). Don't copy-paste — Google will flag it as doorway pages.</p>
+      <p>Follow-on tier: Ahmedabad, Jaipur, Kolkata, Coimbatore, Kochi, Indore, Chandigarh.</p>
+    </div>
+
+    <div class="card">
+      <h3>LocalBusiness schema per city <span class="pill p0">P0</span></h3>
+      <p>You already have <code>generateLocalBusinessSchema()</code> — wire it up. Each city page needs:</p>
+      <pre>{
+  "@type": "ProfessionalService",
+  "name": "Adviserve — Bengaluru",
+  "address": { "addressLocality": "Bengaluru", "addressRegion": "KA", "addressCountry": "IN" },
+  "areaServed": ["Bengaluru Urban", "Whitefield", "Electronic City", "Koramangala"],
+  "geo": { "latitude": "...", "longitude": "..." }
+}</pre>
+      <p>If you have physical offices in those cities, add Google Business Profile listings and link them.</p>
+    </div>
+
+    <div class="card">
+      <h3>Hreflang is NOT needed — <span class="pill opt">skip</span></h3>
+      <p>India is a single-country audience. Don't add <code>hreflang</code> or multilingual duplication yet. But DO add <code>lang="en-IN"</code> to <code>&lt;html&gt;</code> (currently <code>en</code>) and set a <code>content-language</code> meta of <code>en-IN</code> for accurate local ranking.</p>
+    </div>
+
+    <div class="card">
+      <h3>State-wise labour law hub <span class="pill p1">P1</span></h3>
+      <p>Huge India-specific SEO opportunity your competitors ignore:</p>
+      <ul>
+        <li><code>/guides/labour-law/karnataka</code></li>
+        <li><code>/guides/labour-law/maharashtra</code></li>
+        <li><code>/guides/labour-law/delhi</code></li>
+        <li><code>/guides/labour-law/tamil-nadu</code></li>
+      </ul>
+      <p>Minimum wage tables, S&amp;E registration, PF filing deadlines per state. Update quarterly. This drives massive high-intent traffic from HR / Finance teams. Gate the detailed checklist → lead magnet.</p>
+    </div>
+
+    <div class="card">
+      <h3>Currency, units, and local idiom <span class="pill p2">P2</span></h3>
+      <p>Content already uses ₹ and Indian phrasing — good. But:</p>
+      <ul>
+        <li>Some product pricing says "Rs. 8,000" — standardize to <code>₹8,000</code> everywhere.</li>
+        <li>Testimonial companies: use "Bengaluru" (not "Bangalore"), "Gurugram" (not "Gurgaon"). Consistency signals local fluency.</li>
+        <li>Dates: use <code>DD Month YYYY</code> or ISO; not US <code>MM/DD/YYYY</code>.</li>
+        <li>Phone format: <code>+91 80 4XXX XXXX</code>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Local backlinks &amp; citations <span class="pill p1">P1</span></h3>
+      <p>Beyond on-page GEO, build local citations:</p>
+      <ul>
+        <li>Google Business Profile (per office location).</li>
+        <li>Sulekha, JustDial, IndiaMART — get listed under HR Consultants, HRMS Software, Recruitment Agencies.</li>
+        <li>Chamber of commerce listings (Bengaluru Chamber, FICCI, CII).</li>
+        <li>NASSCOM member directory (if you have products).</li>
+        <li>TiE Global / YourStory partner directories.</li>
+        <li>Product Hunt + Product Hunt India launches for each product.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>GEO schema for service area <span class="pill p2">P2</span></h3>
+      <p>Add <code>areaServed</code> to the organization schema. Today you have just <code>"areaServed": "India"</code>. Expand:</p>
+      <pre>"areaServed": [
+  { "@type": "Country", "name": "India" },
+  { "@type": "City", "name": "Bengaluru" },
+  { "@type": "City", "name": "Mumbai" },
+  …
+]</pre>
+    </div>
+
+    <div class="card">
+      <h3>Generative Engine snippets <span class="pill p1">P1</span></h3>
+      <p>For the generative side of GEO (already covered in AEO):</p>
+      <ul>
+        <li>Wikipedia-style "about" paragraphs on every entity (service, product, location).</li>
+        <li>Clear "what it is / who it's for / what it costs / what next" rhythm.</li>
+        <li>Link out to authoritative sources (meity.gov.in for DPDP, labour.gov.in for wage rules). Outbound links to authoritative govt sources help LLMs trust your page.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 05 UI/UX DESIGN                                                -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-ui" role="tabpanel">
+  <h2><small>05 — UI / UX Design</small>Premium aesthetic, but the system is drifting.</h2>
+  <p class="intro">
+    The design direction is ambitious and distinctive — font-mono section numbers (<code>// 00.01°</code>), editorial typography, generous whitespace, orange + teal brand pair, light/dark theme, magnetic CTAs, GSAP-driven reveals. It reads like a high-end agency site. Problems are not taste — they're consistency, hierarchy, and over-engineering.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Design tokens drift <span class="pill p1">P1</span></h3>
+      <p>Multiple color sources:</p>
+      <ul>
+        <li><code>tailwind.config.js</code> tokens: <code>brand-orange #d95d39</code>, <code>brand-teal #6dd4c4</code>, <code>brand-lightOrange</code>, <code>brand-darkOrange</code>, <code>brand-lightTeal</code>.</li>
+        <li>Inline hex: <code>#1a1a2e</code>, <code>#0d1b2a</code>, <code>#111111</code>, <code>#161616</code>, <code>#F9F9F6</code>, <code>#faf9f6</code>, <code>#1f1f1f</code> — scattered through components.</li>
+        <li>Opacity modifiers everywhere: <code>white/40</code>, <code>black/5</code>, <code>text-white/60</code> — inconsistent from section to section.</li>
+      </ul>
+      <p><b>Fix:</b> codify tokens into CSS variables or Tailwind theme extensions: <code>--surface</code>, <code>--surface-elev</code>, <code>--text-primary</code>, <code>--text-secondary</code>, <code>--text-muted</code>, <code>--border</code>, <code>--border-soft</code>. Nuke every raw hex. One source of truth.</p>
+    </div>
+
+    <div class="card">
+      <h3>Typography hierarchy <span class="pill p1">P1</span></h3>
+      <p>You have 5 fonts loaded: <b>Bebas Neue, DM Sans, DM Serif Display, Inter, Space Mono</b>. That's a lot.</p>
+      <ul>
+        <li>Pick a role for each — e.g. DM Serif for editorial h1/h2, Inter for UI + body, Space Mono for all <code>// 00.0x°</code> labels. Remove Bebas (overlaps with DM Serif) unless it's serving a distinct role.</li>
+        <li>Define 6–7 type styles: <code>display/xl</code>, <code>display/lg</code>, <code>h1</code>, <code>h2</code>, <code>h3</code>, <code>body/lg</code>, <code>body</code>, <code>caption</code>, <code>mono/sm</code>. Document them on a <code>/style-guide</code> dev-only page.</li>
+        <li>Many headings use <code>clamp(36px, 5vw, 64px)</code>, others use <code>clamp(32px, 7vw, 72px)</code>, others <code>clamp(30px, 4vw, 52px)</code> — consolidate.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Component sprawl <span class="pill p1">P1</span></h3>
+      <p>In <code>src/components/ui/</code> you have: <code>tabs.tsx</code>, <code>vertical-tabs.tsx</code>, <code>why-adviserve-tabs.tsx</code>, <code>cards-stack.tsx</code>, <code>expandable-card.tsx</code>, <code>clip-path-links.tsx</code>, <code>hero-demo.tsx</code>, <code>modern-hero-demo.tsx</code>, <code>modern-animated-hero-section.tsx</code>, <code>interactive-hero-backgrounds.tsx</code>, <code>interactive-image-accordion.tsx</code>, plus <code>demo.tsx</code>, <code>material-design-3-switch.tsx</code>, <code>svg-follower.tsx</code>, <code>pricing-card.tsx</code>…</p>
+      <p>That's 3 tab variants, 3 hero variants, and multiple unused or demo files in production. This is how design systems rot. Do a week of pruning.</p>
+    </div>
+
+    <div class="card">
+      <h3>Hero readability <span class="pill p1">P1</span></h3>
+      <p>Current hero has <b>six layered elements</b>: full-bleed particles + floating orbs + scroll cue + animated text cycle + CTA + badge. On a 1440px screen it reads well; on a 13" laptop, the text competes with the particles. Check contrast AA on the hero subtitle against the particles background — it looks borderline.</p>
+      <p><b>Fix:</b> add a subtle linear-gradient overlay (<code>rgba(0,0,0,.3)</code> → <code>transparent</code>) behind the hero text. Dim the particles opacity from <code>0.8</code> to <code>0.4</code> when text is present.</p>
+    </div>
+
+    <div class="card">
+      <h3>Motion budget <span class="pill p0">P0</span></h3>
+      <p>The homepage has at minimum: GSAP timeline on advantage cards, connector draw-in, proof strip counter, benefits stagger, industry wave + infinite float loop, hero text cycle, 2 opposing marquees, ISO cert 3D flip + rotating text bands + infinite glow pulse, magnetic CTA on footer, and Lenis smooth scroll on top. That's <b>a lot</b> — browser reports show this kind of site runs at &lt; 45fps on mid-tier Android.</p>
+      <ul>
+        <li>Motion budget: at most 2 concurrent animations per viewport. Chain them; don't parallelize.</li>
+        <li>Kill infinite animations on <code>prefers-reduced-motion</code> AND when the tab is hidden. You do the first but not the second.</li>
+        <li>ISO cert infinite rotation — cap duration; pause when off-screen (intersection observer).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>CTA consistency <span class="pill p1">P1</span></h3>
+      <p>Primary CTAs across the site:</p>
+      <ul>
+        <li>Home hero: "Talk to Us" + "See What We Do" (ghost)</li>
+        <li>Tabs: "See the six practices" (text link)</li>
+        <li>Tabs: "Book a free consultation" (teal pill)</li>
+        <li>Footer banner: "Book a Free Consultation" (teal pill)</li>
+        <li>Products list: "Learn more" (text link)</li>
+      </ul>
+      <p>Five flavors of "primary action". Define two: <b>Primary</b> (solid teal pill, "Book a consultation") and <b>Secondary</b> (ghost outline, "Explore Products"). Everything else is a text link. Apply consistently.</p>
+    </div>
+
+    <div class="card">
+      <h3>Dark-first theme with weak light theme <span class="pill p1">P1</span></h3>
+      <p>The site defaults to dark (good for this aesthetic). But the light theme looks like a partial port — e.g. the footer switches to <code>#F9F9F6</code> with nav links set to <code>text-[#1a1a2e]</code>, with hover state <code>text-white</code> (turns invisible on light bg). This is a bug.</p>
+      <p><b>Fix:</b> pick one of two strategies — (a) go dark-only (many premium sites do), or (b) do a proper light mode with full token coverage. Halfway is worse than either.</p>
+    </div>
+
+    <div class="card">
+      <h3>Cards: heavy, inconsistent <span class="pill p2">P2</span></h3>
+      <p>Different card shapes and border treatments:</p>
+      <ul>
+        <li>Homepage industry cards: <code>border-black/5</code>, hover scale icon 125%, spotlight.</li>
+        <li>Products cards: <code>border-border-default</code>, gradient sweep on hover.</li>
+        <li>Benefits cards (why-adviserve): vertical tabs + image gallery (different pattern entirely).</li>
+        <li>Service list rows: horizontal links with sweep, arrow rotates.</li>
+      </ul>
+      <p>Define 3 card patterns max: <b>entity card</b> (service/product), <b>content card</b> (blog/case study), <b>stat card</b>. Use consistently.</p>
+    </div>
+
+    <div class="card">
+      <h3>Grid &amp; spacing rhythm <span class="pill p2">P2</span></h3>
+      <p>Most sections use <code>max-w-7xl mx-auto</code> (1280px). Some use <code>max-w-3xl</code> (search bar) or <code>max-w-[480px]</code> (hero copy). Vertical spacing hops between <code>py-16</code>, <code>py-24</code>, <code>py-32</code> with no discipline.</p>
+      <p>Establish a 4-step vertical rhythm: <b>compact (py-16)</b>, <b>standard (py-24)</b>, <b>breather (py-32)</b>, <b>feature (py-40)</b>. Assign a level to each section type and stick to it.</p>
+    </div>
+
+    <div class="card">
+      <h3>What's working — keep it <span class="pill good">Keep</span></h3>
+      <ul>
+        <li>The <code>// 00.0x°</code> eyebrow system — signature, memorable.</li>
+        <li>Orange + teal color pair — warm + cool balance is distinctive in B2B India (everyone else is blue + white).</li>
+        <li>Section numbering + dividers — feels editorial.</li>
+        <li>Marquee with edge fades — clean execution.</li>
+        <li>Skip-to-content link — a11y win.</li>
+        <li>Theme-flash prevention script in <code>index.html</code> — correctly implemented.</li>
+        <li>ISO certifications visual — overengineered but brand-building.</li>
+        <li>Accordion for practices — right density for the content.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 06 UX ENHANCEMENTS                                             -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-ux" role="tabpanel">
+  <h2><small>06 — UX Enhancements</small>What to add that doesn't exist yet.</h2>
+  <p class="intro">
+    These are net-new capabilities that would make the site convert harder and give users a reason to come back beyond the first visit.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Persistent intent chooser <span class="pill p0">P0</span></h3>
+      <p>First-visit overlay (or top banner): <i>"I'm here to…"</i> with 3 choices — <b>Buy a product</b> · <b>Hire your services</b> · <b>Explore careers</b>. Persists in localStorage and changes the homepage emphasis, the sticky CTA, and the nav highlight. Converts 2–3× compared to a flat homepage.</p>
+    </div>
+
+    <div class="card">
+      <h3>Sticky contextual CTA <span class="pill p1">P1</span></h3>
+      <p>Today the site has a WhatsApp floating widget (good) and a "Back to Top" button. Add a <b>contextual sticky CTA</b> at the bottom-right on long pages: on a service page it says "Book a call about HR Services"; on a product page it says "Start free trial of Adviserve People". Dismissible, reappears after 30s scroll depth.</p>
+    </div>
+
+    <div class="card">
+      <h3>Interactive tools &amp; calculators <span class="pill p0">P0</span></h3>
+      <p>These are the single biggest lead-gen asset your competitors don't have:</p>
+      <ul>
+        <li><b>HRMS ROI calculator</b>: "I have 200 employees, I spend X on HR ops" → output a before/after savings chart.</li>
+        <li><b>DPDP readiness assessment</b>: 15-question quiz → scored report emailed (lead capture).</li>
+        <li><b>Hiring cost calculator</b>: time-to-fill, internal vs RPO vs agency cost.</li>
+        <li><b>POSH readiness checklist</b>: 8-question binary quiz, gated PDF output.</li>
+        <li><b>Employee cost calculator (CTC break-up)</b>: PF, ESI, gratuity, tax — super high-volume search in India.</li>
+      </ul>
+      <p>Each tool = 1,000+ monthly organic visits within 6 months if executed and distributed on LinkedIn.</p>
+    </div>
+
+    <div class="card">
+      <h3>Live product demos <span class="pill p1">P1</span></h3>
+      <p>On each product page: an interactive demo environment (not a screenshot carousel). Use something like <a href="https://arcade.software/">Arcade</a> or Supademo embed for HRMS / ATS. For DPDP, ship a live 2-min self-serve tour inside the product landing.</p>
+    </div>
+
+    <div class="card">
+      <h3>Pricing page <span class="pill p0">P0</span></h3>
+      <p>No pricing page exists. Even if services are custom-priced, publish anchors:</p>
+      <ul>
+        <li>Adviserve People: Free (≤50) · Growth (₹X/employee) · Scale (₹Y/employee) · Enterprise (custom).</li>
+        <li>Adviserve Hire: Free (≤5 jobs) · Pro · Enterprise.</li>
+        <li>Adviserve Comply: Free assessment · Premium ₹8,000/mo · Enterprise custom.</li>
+        <li>Services: "Typical engagements start from ₹X/mo" — showing the band even if every SOW is custom.</li>
+      </ul>
+      <p>No-pricing is a signal of high-touch legacy consulting. The modern ICP filters those out in the first 5 seconds.</p>
+    </div>
+
+    <div class="card">
+      <h3>Self-serve signup flows <span class="pill p1">P1</span></h3>
+      <p>Free HRMS and free DPDP assessment — but where's the flow? Today it's implied. Build real self-serve flows with Supabase auth: create account → onboard with 5 fields (company name, size, industry, goals) → enter product. This is the defining difference between a services company with a "product" and a real product business.</p>
+    </div>
+
+    <div class="card">
+      <h3>Search that actually works <span class="pill p2">P2</span></h3>
+      <p><code>SearchModal.tsx</code> exists — confirm it searches blog, case studies, services, and products (not just one). Consider Algolia DocSearch (free for open-content sites) or a hosted Meilisearch — instant search dramatically improves content discovery.</p>
+    </div>
+
+    <div class="card">
+      <h3>Case study browser <span class="pill p1">P1</span></h3>
+      <p>Case studies exist as 4 placeholder cards. Once filled, ship a filter UI on <code>/case-studies</code>:</p>
+      <ul>
+        <li>By industry · By practice · By company size · By outcome metric.</li>
+        <li>Each card: logo, headline, one metric, 2 practices used, read time.</li>
+        <li>Detail page: Problem / Approach / Outcome structure + quotes + metrics panel.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Booking flow redesign <span class="pill p1">P1</span></h3>
+      <p>Current <code>BookConsultation.tsx</code> — confirm it integrates a real calendar (Cal.com or Calendly embed). If users click "Book" and get a generic form, they drop off 60% vs. a proper time-slot picker.</p>
+      <p>Pre-fill the <b>service</b> field based on the page they came from (use referrer tracking or URL query). Add a 3-step visible progress indicator. Confirm with a calendar invite + WhatsApp message (if they opt in).</p>
+    </div>
+
+    <div class="card">
+      <h3>Trust bar <span class="pill p1">P1</span></h3>
+      <p>Above-fold social proof bar: client logos (8–12, grayscale) + "Trusted by teams at" text. Combine with live counters ("3,000+ placements · 96% retention"). Put between hero and marquee.</p>
+    </div>
+
+    <div class="card">
+      <h3>Exit-intent + scroll-depth popovers <span class="pill p2">P2</span></h3>
+      <p>On blog articles + product pages, show a context-matched lead magnet on 50% scroll or exit-intent:</p>
+      <ul>
+        <li>DPDP blog → "Get the 15-question DPDP readiness checklist".</li>
+        <li>Hiring blog → "Get our 90-day hiring playbook".</li>
+        <li>Product page → "Start free trial" or "See 2-min demo".</li>
+      </ul>
+      <p>Frequency-capped (once per session), dismissible, mobile-friendly.</p>
+    </div>
+
+    <div class="card">
+      <h3>Progressive disclosure on services <span class="pill p2">P2</span></h3>
+      <p>Service pages have huge HTML content blocks (your Recruitment page is ~1,500 words as one <code>dangerouslySetInnerHTML</code> render). Split into anchor-linked sections: Overview · What's Included · Industries · Pricing · FAQ · Case Studies. Sticky left nav. Jumps to anchor. Reduces bounce.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 07 CONTENT ORDER                                               -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-order" role="tabpanel">
+  <h2><small>07 — Content Order (Information Architecture)</small>Restructure for a products + services company.</h2>
+  <p class="intro">
+    Current homepage section order: Hero → Marquee → Advantage Tabs → Practices Accordion → Process → Products → Industries → Why Adviserve → Testimonials → CTA banner. That's <b>9 sections before testimonials</b>. For a B2B products + services company, the right order is different: it needs to convert a self-serve product-buyer and an enterprise-services-buyer on the same page without confusing either.
+  </p>
+
+  <div class="two-col">
+    <div class="card">
+      <h3>Current order (homepage) <span class="pill opt">Now</span></h3>
+      <div class="ia-list">
+        <div class="ia-row"><span class="n">00.01°</span><span class="name"><b>Hero</b><small>Integrated advisory pitch</small></span><span class="pill opt">Keep</span></div>
+        <div class="ia-row"><span class="n">—</span><span class="name"><b>Marquee</b><small>Service names loop</small></span><span class="pill opt">Keep</span></div>
+        <div class="ia-row"><span class="n">00.02°</span><span class="name"><b>The Problem/Shift/Result</b><small>Story tabs</small></span><span class="pill opt">Keep, move down</span></div>
+        <div class="ia-row"><span class="n">00.03°</span><span class="name"><b>Practices accordion</b><small>6 services</small></span><span class="pill opt">Reposition</span></div>
+        <div class="ia-row"><span class="n">00.04°</span><span class="name"><b>Process (4 steps)</b><small>VerticalTabs</small></span><span class="pill opt">Move later</span></div>
+        <div class="ia-row"><span class="n">00.05°</span><span class="name"><b>Products (3 stacked)</b><small>HRMS, ATS, DPDP</small></span><span class="pill p0">Move UP</span></div>
+        <div class="ia-row"><span class="n">00.06°</span><span class="name"><b>Industries</b><small>6 chips</small></span><span class="pill opt">Later</span></div>
+        <div class="ia-row"><span class="n">00.07°</span><span class="name"><b>Why Adviserve</b><small>6 benefits</small></span><span class="pill opt">Later</span></div>
+        <div class="ia-row"><span class="n">00.08°</span><span class="name"><b>Testimonials</b><small>5 anonymous</small></span><span class="pill p0">Replace or remove</span></div>
+        <div class="ia-row"><span class="n">CTA</span><span class="name"><b>Footer banner</b><small>Book consultation</small></span><span class="pill opt">Keep</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Recommended order <span class="pill new">Next</span></h3>
+      <div class="ia-list">
+        <div class="ia-row"><span class="n">01</span><span class="name"><b>Hero</b><small>Dual value prop + dual CTA (Products / Services)</small></span><span class="pill p0">Rewrite</span></div>
+        <div class="ia-row"><span class="n">02</span><span class="name"><b>Trust bar</b><small>Client logos + 3-stat band</small></span><span class="pill new">NEW</span></div>
+        <div class="ia-row"><span class="n">03</span><span class="name"><b>Products (3 stacked cards)</b><small>Self-serve lead magnet hero</small></span><span class="pill p0">Move up</span></div>
+        <div class="ia-row"><span class="n">04</span><span class="name"><b>Services (Practices)</b><small>8 tiles: 6 current + Custom Dev + Cybersec</small></span><span class="pill p1">Expand</span></div>
+        <div class="ia-row"><span class="n">05</span><span class="name"><b>Why Adviserve</b><small>4 differentiators (not 6)</small></span><span class="pill p1">Tighten</span></div>
+        <div class="ia-row"><span class="n">06</span><span class="name"><b>Case Studies</b><small>3 featured, named, with metrics</small></span><span class="pill new">NEW</span></div>
+        <div class="ia-row"><span class="n">07</span><span class="name"><b>Industries</b><small>10 chips, each linked</small></span><span class="pill opt">Keep</span></div>
+        <div class="ia-row"><span class="n">08</span><span class="name"><b>Problem/Shift/Result</b><small>Story tabs (lower priority)</small></span><span class="pill opt">Move down</span></div>
+        <div class="ia-row"><span class="n">09</span><span class="name"><b>Process</b><small>4 steps</small></span><span class="pill opt">Keep</span></div>
+        <div class="ia-row"><span class="n">10</span><span class="name"><b>Testimonials</b><small>Real, named, 3 max</small></span><span class="pill p0">Replace</span></div>
+        <div class="ia-row"><span class="n">11</span><span class="name"><b>FAQ (AEO block)</b><small>8 Q&amp;As + FAQPage schema</small></span><span class="pill new">NEW</span></div>
+        <div class="ia-row"><span class="n">12</span><span class="name"><b>Resource teaser</b><small>Top 3 blogs / guides</small></span><span class="pill new">NEW</span></div>
+        <div class="ia-row"><span class="n">13</span><span class="name"><b>CTA banner</b><small>Book + WhatsApp + Email capture</small></span><span class="pill p1">Upgrade</span></div>
+      </div>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">Other pages — section order notes</h3>
+  <div class="grid g2">
+    <div class="card">
+      <h3>Services (list)</h3>
+      <p>Today: Hero → Search → 6 rows. Recommend: Hero → Trust logos → Category filter (Products · HR · Legal · IT · Training · Custom) → Filtered list with pricing &amp; engagement duration → Pricing principles strip → Case studies related → FAQ → CTA.</p>
+    </div>
+    <div class="card">
+      <h3>Service Detail</h3>
+      <p>Overview (What it is · Who it's for · Starts at) → What's included (bulleted) → Process (3–4 steps) → Deliverables → Pricing tiers → Industry variants → Case studies (2–3) → FAQ (6–10) → Related services &amp; products → CTA.</p>
+    </div>
+    <div class="card">
+      <h3>Products (list)</h3>
+      <p>Hero → 3 product cards with pricing band → Why built by advisory firm → Integrations strip → "Not ready? Talk to our team" → FAQ → CTA.</p>
+    </div>
+    <div class="card">
+      <h3>Product Detail (HRMS, ATS, DPDP)</h3>
+      <p>Hero with live demo GIF/video → Feature matrix → Screenshots (3–5) → Pricing → Integrations → Security &amp; compliance (ISO 27001 + DPDP) → Testimonials/case studies → Comparison with alternatives → FAQ → CTA (Start free / Book demo).</p>
+    </div>
+    <div class="card">
+      <h3>About</h3>
+      <p>Who we are → Founding story → Leadership team (photos + LinkedIn) → By the numbers (verified) → Offices (GEO) → Values (3–4, not 4 abstract) → Our investors / advisors (if any) → Media &amp; awards → Careers CTA.</p>
+    </div>
+    <div class="card">
+      <h3>Careers</h3>
+      <p>Why work with us → Culture (3 items) → Benefits (4 items) → Open roles (filterable by dept + location) → Interview process (4 steps, transparent) → Team spotlight (2 people with quotes) → Apply CTA + "Don't see your role" form.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 08 FOOTER                                                      -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-footer" role="tabpanel">
+  <h2><small>08 — Footer</small>Rebuild it. The current footer is a liability.</h2>
+  <p class="intro">
+    The footer is where SEO equity is passed and where users go when the nav failed them. Today's footer has: Contact (1 phone, 1 email, 2 socials) · Navigation (5 top-level links) · Subscribe (email). Then ISO certs. Then legal. <b>That's it.</b> A B2B products+services company with this scope needs a ~60-link footer organized in 5–6 columns.
+  </p>
+
+  <div class="card" style="margin-bottom:18px">
+    <h3>Recommended footer structure <span class="pill p0">P0</span></h3>
+    <table>
+      <tr><th style="width:16%">Column</th><th>Links</th></tr>
+      <tr><td><b>Products</b></td><td>Adviserve People (HRMS) · Adviserve Hire (ATS) · Adviserve Comply (DPDP) · Pricing · Integrations · Security · Changelog · Roadmap · Free trial · Demo</td></tr>
+      <tr><td><b>Services</b></td><td>Recruitment · HR Consulting · Payroll Outsourcing · Corporate Training · POSH Compliance · Legal Advisory · Business Consulting · IT Services · Custom Software · Managed IT · Cybersecurity · HRMS Implementation</td></tr>
+      <tr><td><b>Industries</b></td><td>Technology · Healthcare · BFSI · Manufacturing · E-commerce · Education · Real Estate · Logistics · Startups · GCCs</td></tr>
+      <tr><td><b>Resources</b></td><td>Blog · Case Studies · Guides · Glossary · ROI Calculator · DPDP Assessment · POSH Checklist · Labour Law Hub · Newsletter · Press</td></tr>
+      <tr><td><b>Company</b></td><td>About · Team · Careers · Contact · Book Consultation · Locations · Partnerships · Investor Relations (if applicable)</td></tr>
+      <tr><td><b>Locations</b></td><td>Bengaluru · Mumbai · Delhi NCR · Pune · Hyderabad · Chennai · Ahmedabad · Kolkata · Remote-India</td></tr>
+    </table>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Pre-footer band <span class="pill p1">P1</span></h3>
+      <p>Above the columns, a 3-up band:</p>
+      <ul>
+        <li><b>Newsletter</b>: "The integrated advisory newsletter — 1 email, every other Tuesday, 0 fluff." Email input + subscribe.</li>
+        <li><b>Contact</b>: phone (click-to-call), email (mailto), WhatsApp (direct link), booking CTA.</li>
+        <li><b>Office</b>: current office address (when you have one), "Visit us" map link.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Trust &amp; compliance row <span class="pill p1">P1</span></h3>
+      <p>Under the main columns, add:</p>
+      <ul>
+        <li><b>Certifications</b>: ISO 9001, ISO 20000, ISO 27001 (keep current cinematic block — it's one of your best visual assets).</li>
+        <li><b>Memberships</b>: NASSCOM, FICCI, CII, TiE (if applicable, only show real ones).</li>
+        <li><b>Payment</b>: Razorpay, Stripe, bank transfer (if you take card payments for products).</li>
+        <li><b>Compliance badges</b>: DPDP-compliant · SOC 2 (if/when you earn it) · AWS India region hosting.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Legal row (bottom) <span class="pill p1">P1</span></h3>
+      <p>Current: "© Adviserve. All rights reserved." + Privacy + Terms. <b>Expand to</b>:</p>
+      <ul>
+        <li>© year + registered entity name + CIN (company identification number — required for Indian companies).</li>
+        <li>Privacy Policy · Terms of Service · Cookie Policy · Security · Responsible Disclosure · DPDP Notice · Refund Policy (for product subscriptions) · Accessibility Statement · Sitemap.</li>
+        <li>Social: LinkedIn · Twitter/X · YouTube · Instagram · GitHub (if you have open-source).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Newsletter — current issue <span class="pill p2">P2</span></h3>
+      <p>Today the subscribe box just says "Subscribe". No value prop. Rewrite as a mini-issue: <i>"This month: how 4 Indian companies are operationalizing DPDP · Labour law changes in Karnataka · Hiring playbooks from a Series B fintech."</i> + 1 compelling sentence + field + submit. Shows the newsletter is alive and worth the trade.</p>
+    </div>
+
+    <div class="card">
+      <h3>Visual refresh <span class="pill p2">P2</span></h3>
+      <p>The ISO cert block is great — keep it. But the rest of the footer is flat — no visual hierarchy. Darken the background one step from the site bg, add a subtle top border-glow, and typeset column headers in the mono/uppercase style you already use for eyebrows.</p>
+    </div>
+
+    <div class="card">
+      <h3>CTA banner on top of footer <span class="pill good">Good</span></h3>
+      <p>Merging the CTA into the footer (<code>Footer.tsx</code> lines 383–424) was the right call. The "Let us figure out / what your business needs" headline is weak though — see Content tab for the rewrite. Consider A/B testing three variants:</p>
+      <ul>
+        <li>"Tell us the problem. We'll bring the team."</li>
+        <li>"One call. One team. One invoice."</li>
+        <li>"Start free with Adviserve People. Or talk to a human."</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- 09 IMAGERY                                                     -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-images" role="tabpanel">
+  <h2><small>09 — Imagery</small>What images, illustrations, and video go where.</h2>
+  <p class="intro">
+    Today, ~90% of imagery is Unsplash stock photos (generic workplaces, laptops, handshakes). That's acceptable in v1 but looks amateurish at scale and gives zero SEO value. The strategy below is: <b>(1) commission proprietary photography of your actual team + offices, (2) commission a distinctive illustration style, (3) build screenshot &amp; video UI for products, (4) curate better stock when needed.</b>
+  </p>
+
+  <div class="card" style="margin-bottom:18px">
+    <h3>Asset system — 5 categories</h3>
+    <table>
+      <tr><th>Category</th><th>Purpose</th><th>Source</th><th>Priority</th></tr>
+      <tr><td><b>Team photography</b></td><td>Real people on about/team/careers/testimonials</td><td>Commission — 1-day shoot, natural light, editorial style</td><td><span class="pill p0">P0</span></td></tr>
+      <tr><td><b>Product screenshots</b></td><td>HRMS, ATS, DPDP — real UI on product pages</td><td>Export from dev env, annotate, lossless WebP</td><td><span class="pill p0">P0</span></td></tr>
+      <tr><td><b>Product demo videos</b></td><td>Loom-style 60–90 sec on each product page</td><td>Record in-product; Arcade/Supademo for interactive</td><td><span class="pill p1">P1</span></td></tr>
+      <tr><td><b>Illustration system</b></td><td>Service pages, blog headers, process diagrams</td><td>Commission 30-asset set in consistent style</td><td><span class="pill p1">P1</span></td></tr>
+      <tr><td><b>Curated stock</b></td><td>Blog/case study headers, industry pages</td><td>Pexels or Unsplash — but hand-picked, never auto</td><td><span class="pill p2">P2</span></td></tr>
+    </table>
+  </div>
+
+  <div class="grid g2">
+
+    <div class="card">
+      <h3>Homepage <span class="pill p0">P0</span></h3>
+      <ul>
+        <li><b>Hero</b>: A subtle animated illustration (abstract — connected nodes representing 6 practices linked to one hub). OR: a short (4-sec) looped muted video of a team working in a shared workspace with tool UI overlays. Avoid stock hero images.</li>
+        <li><b>Marquee</b>: No image — text only (current).</li>
+        <li><b>Advantage tabs</b>: Replace 5 Unsplash stock images with 5 custom illustrations — "Five invoices → One invoice", "Five calendars → One calendar", "Five people → One team". A flat vector style, brand colors, 600×400 each.</li>
+        <li><b>Practices accordion</b>: Replace 6 Unsplash images with 6 commissioned photos or illustrations — one per practice, shot or drawn in your brand style.</li>
+        <li><b>Products</b>: 3 product screenshots — HRMS dashboard, ATS candidate pipeline, DPDP compliance score. Crop to show the core screen. Add animated arrow pointing to the value.</li>
+        <li><b>Industries</b>: Keep icon-only (current approach is correct — adding photos here would clutter).</li>
+        <li><b>Why Adviserve</b>: Photography of the team — working, meeting clients. OR illustration series.</li>
+        <li><b>Testimonials</b>: Client headshots (once you have real testimonials) + their company logo. No stock avatars.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Services pages <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><b>Services list hero</b>: Abstract illustration — "6 disciplines woven together". Tall banner, optimized for 1440×500.</li>
+        <li><b>Service detail hero</b>: Service-specific photo or illustration — Recruitment shows a real interview, Legal shows a document review desk, IT shows server racks / cloud diagram. Commission 8 images (one per service).</li>
+        <li><b>What's Included</b>: Icon system (Lucide is already used — consistent).</li>
+        <li><b>Process</b>: Diagram with 4 numbered nodes connecting left to right. Keep as SVG for crispness and animation.</li>
+        <li><b>Case study callouts</b>: Small thumbnail of the client's product/site/space (with permission). Falls back to logo.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Products pages <span class="pill p0">P0</span></h3>
+      <ul>
+        <li><b>Product hero</b>: Large product screenshot, slightly tilted, against a brand-gradient background. Above it: a short looping demo video (autoplay muted on hover).</li>
+        <li><b>Feature tiles</b>: 5–8 tiles, each with a small zoomed screenshot of the feature (not an icon). Icons go on service tiles; screenshots go on product tiles.</li>
+        <li><b>Integrations</b>: Logo wall — Naukri, WhatsApp, Razorpay, GreytHR, Keka, Darwinbox, etc. Grayscale, on hover colorize.</li>
+        <li><b>Security/compliance</b>: ISO, DPDP, AWS India region badge. Small trust row.</li>
+        <li><b>Testimonials</b>: Customer headshot + company logo + quote card.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>About &amp; Team <span class="pill p0">P0</span></h3>
+      <ul>
+        <li><b>About hero</b>: Wide-angle photo of the team in the office. Not a generic "we're a startup" photo — your team, your space, your energy.</li>
+        <li><b>Founding story</b>: Archival photo of the founders (early days) or a composed editorial shot.</li>
+        <li><b>Team grid</b>: Uniform headshots — same background, same framing, same warmth. 4×N grid. Each card: name · role · practice · LinkedIn.</li>
+        <li><b>Offices</b>: Real photos of each physical location (even if small / coworking).</li>
+        <li><b>Values</b>: Illustration — 4 tiles, each with a small custom vector (not emoji).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Case Studies <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><b>Card thumbnails</b>: Client logo on a brand-colored background panel (one color per industry), overlay with outcome headline.</li>
+        <li><b>Detail page hero</b>: Wide image — either the client's product UI, their office, or a composed visual representing the outcome (e.g., team of 68 engineers they hired).</li>
+        <li><b>Quote block</b>: Headshot + quote + name + role + company logo.</li>
+        <li><b>Metrics panel</b>: Number-led tiles — no image, pure typography.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Blog <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><b>Article cover</b>: Editorial illustration OR a tight, high-quality curated stock photo (no laptops + coffee cliché). 16:9 at 1200×630 (also OG image).</li>
+        <li><b>In-article diagrams</b>: Commission 1–2 custom diagrams per pillar piece. These get reshared and linked to.</li>
+        <li><b>Author byline</b>: Real author headshot, role, LinkedIn.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Careers <span class="pill p2">P2</span></h3>
+      <ul>
+        <li><b>Hero</b>: Team photo — candid, in action, at a whiteboard or lunch. Diverse. Real.</li>
+        <li><b>Benefits tiles</b>: Icon + short copy. Keep simple.</li>
+        <li><b>Culture photos</b>: 6–8 photos in a masonry/grid: offsites, client dinners, workshops, coworker moments. Update quarterly.</li>
+        <li><b>Team spotlight</b>: 2–3 people quoted about their work. Each quote with a real photo.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Contact <span class="pill p2">P2</span></h3>
+      <ul>
+        <li><b>Hero</b>: Simple — stylized illustration of a phone / chat / meeting.</li>
+        <li><b>Office photo</b>: Real photo of your reception / meeting room.</li>
+        <li><b>Map</b>: Google Maps embed for each office (GEO signal + user utility).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Product-specific imagery system <span class="pill p0">P0</span></h3>
+      <p>Each product deserves its own visual language inside the shared brand:</p>
+      <ul>
+        <li><b>Adviserve People (HRMS)</b>: Teal primary, soft gradients, dashboard screenshots, calendar motifs.</li>
+        <li><b>Adviserve Hire (ATS)</b>: Orange primary, pipeline/kanban motifs, candidate card UI, WhatsApp green accent.</li>
+        <li><b>Adviserve Comply (DPDP)</b>: Blue/security primary, shield/lock motifs, compliance scorecard UI, document flow diagrams.</li>
+      </ul>
+      <p>This differentiates the product family visually while keeping the parent brand consistent.</p>
+    </div>
+
+    <div class="card">
+      <h3>Technical image guidelines <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><b>Formats</b>: WebP primary, AVIF where supported, JPG/PNG fallback via <code>&lt;picture&gt;</code>.</li>
+        <li><b>Sizes</b>: Serve responsive srcset — 480w, 800w, 1200w, 1600w. Use <code>sizes</code> attribute.</li>
+        <li><b>Compression</b>: Images ≤ 150KB for content, ≤ 300KB for hero.</li>
+        <li><b>Alt text</b>: Descriptive, keyword-aware, 5–15 words. Never "image" or filename.</li>
+        <li><b>Loading</b>: <code>loading="lazy"</code> everywhere except above-fold hero (which gets <code>fetchpriority="high"</code>).</li>
+        <li><b>Hosting</b>: Vercel's image optimization (or next/image if you migrate). Kill Unsplash hotlinks.</li>
+        <li><b>Naming</b>: <code>hris-dashboard-india-adviserve-people.webp</code>, not <code>image1.png</code>.</li>
+        <li><b>Dark / light mode pairs</b>: Commission each key asset in both modes (or design with transparent BG + CSS invert).</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Budget &amp; timeline estimate <span class="pill opt">plan</span></h3>
+      <table>
+        <tr><th>Asset</th><th>Qty</th><th>Rough cost (INR)</th></tr>
+        <tr><td>Team photoshoot (1 day)</td><td>30–40 photos</td><td>40k–80k</td></tr>
+        <tr><td>Illustration set — brand-aligned</td><td>30 assets</td><td>1.5L–3L</td></tr>
+        <tr><td>Product screenshots + demo videos</td><td>3 products</td><td>Internal or 50k–1L</td></tr>
+        <tr><td>Case-study videography</td><td>3–4 clients</td><td>2L–4L</td></tr>
+      </table>
+      <p class="small">These are India-market estimates for mid-tier vendors. Scale up for more polished output or hire a design-forward agency for a branded system.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- + MISSING PAGES                                                -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-newpages" role="tabpanel">
+  <h2><small>+ Missing Pages</small>Pages the current site doesn't have but should.</h2>
+  <p class="intro">
+    These aren't nice-to-haves — they're expected surfaces for a B2B products+services company in 2026. Each one has a defined conversion role. Ordered by impact.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>/pricing <span class="pill p0">P0</span></h3>
+      <p>Product pricing + service engagement bands. "From ₹" anchors on every offering. See UX tab.</p>
+    </div>
+    <div class="card">
+      <h3>/products/adviserve-people <span class="pill p0">P0</span></h3>
+      <p>Dedicated HRMS landing page (today only DPDP has its own cinematic page per <code>App.tsx</code> hide-footer logic). Features · pricing · screenshots · integrations · security · comparison with Keka / Zoho People / Darwinbox · FAQ · self-serve signup.</p>
+    </div>
+    <div class="card">
+      <h3>/products/adviserve-hire <span class="pill p0">P0</span></h3>
+      <p>Same shape as HRMS landing. Feature differentiator: AI screening, Naukri + WhatsApp integration, embedded recruitment service upsell.</p>
+    </div>
+    <div class="card">
+      <h3>/locations/:city ×6 <span class="pill p0">P0</span></h3>
+      <p>GEO landing pages — see GEO tab. Bengaluru, Mumbai, Delhi NCR, Pune, Hyderabad, Chennai.</p>
+    </div>
+    <div class="card">
+      <h3>/industries/:slug ×10 <span class="pill p1">P1</span></h3>
+      <p>Industry hubs — Technology, Healthcare, BFSI, Manufacturing, E-commerce, Education, Real Estate, Logistics, Startups, GCCs. Each with 3–5 case studies, compliance map, industry-specific service packages.</p>
+    </div>
+    <div class="card">
+      <h3>/tools/* (lead magnets) <span class="pill p0">P0</span></h3>
+      <p>HRMS ROI calculator · DPDP readiness assessment · Employee cost (CTC) calculator · Hiring cost calculator · POSH compliance checklist. Each = a dedicated page with the interactive tool + capture email for report download.</p>
+    </div>
+    <div class="card">
+      <h3>/compare/:a-vs-:b <span class="pill p1">P1</span></h3>
+      <p>Product comparison pages — 5 to start (see AEO tab). High-intent, LLM-favored content.</p>
+    </div>
+    <div class="card">
+      <h3>/guides/* (pillar content) <span class="pill p1">P1</span></h3>
+      <p>Long-form evergreen guides: DPDP Act 2023 complete guide · POSH compliance playbook · Labour law state matrix · HRMS selection guide · Hiring engineering teams in India · First 90 days as a new HR lead.</p>
+    </div>
+    <div class="card">
+      <h3>/glossary/* <span class="pill p1">P1</span></h3>
+      <p>A–Z glossary: DPDP, POSH, HRMS/HRIS/HCM, RPO, ESOP, EOR, PEO, PF, ESI, Gratuity, LWF, CTC, CAGR, CLTV, etc. AEO gold — LLMs pull definitions.</p>
+    </div>
+    <div class="card">
+      <h3>/resources (hub) <span class="pill p1">P1</span></h3>
+      <p>Single landing that categorizes everything non-service/product: Blog · Case Studies · Guides · Glossary · Tools · Newsletters · Webinars · Templates. Replaces the scattered top-level nav links.</p>
+    </div>
+    <div class="card">
+      <h3>/changelog &amp; /roadmap <span class="pill p2">P2</span></h3>
+      <p>For the products. Shows velocity. Signals "this is a real product, not a side project". Developer-community play — but B2B buyers read these too.</p>
+    </div>
+    <div class="card">
+      <h3>/security <span class="pill p1">P1</span></h3>
+      <p>Security page with ISO 27001 statement · encryption at rest/transit · DPDP compliance · AWS India region · data retention · DSR handling · responsible disclosure. Enterprise buyers require this before signing.</p>
+    </div>
+    <div class="card">
+      <h3>/trust-center <span class="pill p2">P2</span></h3>
+      <p>Expanded version of /security: subprocessors list · audit reports (gated) · status page (if you run uptime) · DPA templates · compliance FAQ. Table-stakes for enterprise.</p>
+    </div>
+    <div class="card">
+      <h3>/status <span class="pill p2">P2</span></h3>
+      <p>For products — uptime, incidents, scheduled maintenance. Use StatusPage.io or BetterStack embed.</p>
+    </div>
+    <div class="card">
+      <h3>/partners <span class="pill p2">P2</span></h3>
+      <p>Referral &amp; implementation partner program. 50% of services sold at larger consultancies flow through channel partners. If you have a program, ship the page.</p>
+    </div>
+    <div class="card">
+      <h3>/press &amp; /media-kit <span class="pill p2">P2</span></h3>
+      <p>Press mentions · awards · logos for download · executive bios · boilerplate description. Journalists won't chase you — the kit has to exist.</p>
+    </div>
+    <div class="card">
+      <h3>/accessibility <span class="pill p1">P1</span></h3>
+      <p>Accessibility statement — WCAG conformance level, known issues, contact for reporting. Required in some procurement RFPs.</p>
+    </div>
+    <div class="card">
+      <h3>/sitemap (HTML) <span class="pill p2">P2</span></h3>
+      <p>Human-readable sitemap page listing every public URL. Helps UX and mildly helps SEO. Generate from the XML sitemap.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- + ACCESSIBILITY                                                -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-a11y" role="tabpanel">
+  <h2><small>+ Accessibility (WCAG 2.1 AA)</small>Good starts, systemic gaps.</h2>
+  <p class="intro">
+    The codebase shows real a11y intent — <code>focus-visible:ring</code> utilities, skip-to-content link, <code>aria-label</code>s on search, <code>prefers-reduced-motion</code> guards on most animations, <code>sr-only</code> labels. It's not accidental. But there are systemic gaps that will fail an automated scan and fail real users.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Color contrast <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><code>text-white/40</code> and <code>text-white/60</code> on <code>#111111</code> backgrounds is common — <code>white/40</code> is ≈ 3.5:1 which fails AA for body text (4.5:1).</li>
+        <li><code>text-text-dim</code>-like values on light backgrounds similarly borderline.</li>
+        <li>Brand orange <code>#d95d39</code> on white = ~4.3:1 — fails AA for body, passes AA Large.</li>
+      </ul>
+      <p><b>Fix:</b> audit all 40%/50% text-on-dark uses. Bump to 60%+ minimum. Avoid orange-on-white for body text; reserve it for large headings or use as accent-only.</p>
+    </div>
+
+    <div class="card">
+      <h3>Motion &amp; reduced-motion <span class="pill p1">P1</span></h3>
+      <p>You guard most animations with <code>prefers-reduced-motion</code> (good). Missing guards:</p>
+      <ul>
+        <li>Marquee animations run regardless (<code>motion-safe:animate-marquee</code> is correct — verify every marquee variant uses it).</li>
+        <li>ISO cert rotating band and glow pulse: the code has a check but still runs infinite animations on focus — pause when reduced-motion is on.</li>
+        <li>Intersection-observer driven "pause when offscreen" isn't implemented. Infinite animations keep running when the section is scrolled away, chewing CPU on slow devices.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Keyboard navigation <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><b>Tabs component</b>: verify arrow-key navigation (WAI-ARIA tabs pattern). Today it appears to be button-based only — <code>tab</code> cycles through all 5 tabs instead of <code>arrow-left/right</code> switching.</li>
+        <li><b>Accordion</b> (<code>InteractiveImageAccordion</code>): add <code>aria-expanded</code> on the triggers and proper ids for <code>aria-controls</code>.</li>
+        <li><b>Custom cursor</b>: must be disabled when keyboard is the input modality (and for touch). Currently the CustomCursor always renders.</li>
+        <li><b>Modal (SearchModal)</b>: confirm focus trap, escape-to-close, focus returned to trigger on close.</li>
+        <li><b>Cookie consent</b>: must be keyboard-operable and announced to screen readers on mount.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Focus rings <span class="pill p2">P2</span></h3>
+      <p>Focus styles are inconsistent — some components have <code>focus-visible:ring-2 focus-visible:ring-brand-teal</code>, others none. Global tailwind plugin or base layer rule:</p>
+      <pre>@layer base {
+  *:focus-visible {
+    outline: 2px solid var(--accent-2);
+    outline-offset: 2px;
+  }
+}</pre>
+    </div>
+
+    <div class="card">
+      <h3>Alt text audit <span class="pill p0">P0</span></h3>
+      <p>Most images have alt text. Where they don't (or where it's poor):</p>
+      <ul>
+        <li>Unsplash images on homepage tabs: <code>alt="Problem"</code>, <code>alt="Shift"</code>, <code>alt="Result"</code> — not descriptive.</li>
+        <li>Logo: verify <code>alt="Adviserve"</code> is set (not <code>alt=""</code>).</li>
+        <li>Icon-only buttons (arrow, close) need <code>aria-label</code> if there's no visible text.</li>
+        <li>Decorative images: explicit <code>alt=""</code> + <code>aria-hidden="true"</code>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Form accessibility <span class="pill p1">P1</span></h3>
+      <ul>
+        <li>Contact form: verify every input has a visible or <code>sr-only</code> label (you use <code>sr-only</code> on the search input — good).</li>
+        <li>Error messages: must be announced via <code>aria-live="polite"</code>.</li>
+        <li>Success states: same pattern.</li>
+        <li>Required fields: visible asterisk + <code>aria-required="true"</code>.</li>
+        <li>Autocomplete attributes: <code>autocomplete="email"</code>, <code>"name"</code>, <code>"tel"</code>, <code>"organization"</code>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Heading order <span class="pill p1">P1</span></h3>
+      <p>Likely skips levels (h1 → h3 common on card-heavy pages). Run axe / Lighthouse per page and fix. Use <code>h2</code> for sections, <code>h3</code> for card titles. Never skip a level.</p>
+    </div>
+
+    <div class="card">
+      <h3>Screen reader walkthrough <span class="pill p2">P2</span></h3>
+      <p>Do a 30-min pass with NVDA (Windows) or VoiceOver (Mac). Check: landmark navigation (header/main/footer), list semantics (tiles should be in <code>ul&gt;li</code>), button vs link (search clear = button, "Learn more" = link).</p>
+    </div>
+
+    <div class="card">
+      <h3>Language attribute <span class="pill p2">P2</span></h3>
+      <p><code>&lt;html lang="en"&gt;</code> — fine, but <code>en-IN</code> is more accurate and helps local SEO + screen reader pronunciation for Indian names and places.</p>
+    </div>
+
+    <div class="card">
+      <h3>What's working <span class="pill good">Keep</span></h3>
+      <ul>
+        <li>Skip-to-main link with proper focus-visible styling.</li>
+        <li><code>prefers-reduced-motion</code> guards on most GSAP timelines.</li>
+        <li><code>aria-label</code>s on icon-only inputs.</li>
+        <li><code>noscript</code> fallback in <code>index.html</code>.</li>
+        <li>Theme persistence with <code>colorScheme</code> set to avoid flash.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- + COMPETITIVE                                                  -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-competitive" role="tabpanel">
+  <h2><small>+ Competitive Brief</small>Where you sit vs HRMS players, IT services firms, and Big-4 consulting.</h2>
+  <p class="intro">
+    You compete in 3 adjacent arenas at once. Each has different table stakes. Here's the quick read.
+  </p>
+
+  <div class="grid g3">
+    <div class="card">
+      <h3>HRMS product arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>Keka</b> — polished product, India-focused, strong brand, free tier &lt; 50</li>
+        <li><b>Zoho People</b> — broad ecosystem, cheap, enterprise credibility</li>
+        <li><b>Darwinbox</b> — enterprise-first, India-born unicorn</li>
+        <li><b>GreytHR</b> — SMB, compliance-led</li>
+        <li><b>BambooHR</b> — US origin, mid-market strong</li>
+      </ul>
+      <p><b>Your edge:</b> The advisory firm behind the product. Nobody else can say "the HR consultants who run HR for a living built this HRMS". Lean into it.</p>
+      <p><b>Your gap:</b> Product maturity. Publish roadmap, changelog, customer stories monthly to signal velocity.</p>
+    </div>
+
+    <div class="card">
+      <h3>DPDP compliance arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>Tsaaro</b> — privacy-first, strong content marketing</li>
+        <li><b>Seqrite DPDP</b> — product from Quick Heal</li>
+        <li><b>Securiti.ai</b> — US-born, enterprise</li>
+        <li><b>OneTrust</b> — global leader, expensive, too much for Indian SMB</li>
+        <li><b>Legasis</b> — Indian legal-tech</li>
+      </ul>
+      <p><b>Your edge:</b> Integrated with HR/Legal advisory + "no lawyers needed" — meets SMB reality.</p>
+      <p><b>Your gap:</b> Tsaaro is outspending everyone on DPDP content. Match with a DPDP pillar of 15–20 articles (see Content tab).</p>
+    </div>
+
+    <div class="card">
+      <h3>Recruitment services arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>Naukri RMS</b> — scale, candidate data</li>
+        <li><b>Xpheno</b> — tech-focused, mid-market</li>
+        <li><b>Randstad</b> — global, large enterprise</li>
+        <li><b>ABC Consultants</b> — India-born, executive search</li>
+        <li><b>Vito</b> — digital-first, startup darling</li>
+      </ul>
+      <p><b>Your edge:</b> Recruitment + HR + Legal under one contract. Vito and Xpheno do only talent.</p>
+      <p><b>Your gap:</b> Brand recognition in CHRO circles. Invest in LinkedIn thought leadership from your partners.</p>
+    </div>
+
+    <div class="card">
+      <h3>IT services / custom dev arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>Turing / Turing.com</b> — talent platform</li>
+        <li><b>Tata Consultancy / Infosys BPM</b> — enterprise</li>
+        <li><b>ThoughtWorks / Zemoso</b> — boutique high-end</li>
+        <li><b>Tiger Analytics / Fractal</b> — data-focused</li>
+        <li><b>Local dev shops</b> — 1000s, price-driven</li>
+      </ul>
+      <p><b>Your edge:</b> Business context — "your dev team also knows your HR and legal". Unusual combo.</p>
+      <p><b>Your gap:</b> Credibility for custom dev at enterprise. Publish 2–3 detailed case studies on delivered platforms.</p>
+    </div>
+
+    <div class="card">
+      <h3>Business / management consulting arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>Big 4</b> — Deloitte / PwC / EY / KPMG</li>
+        <li><b>Indian boutiques</b> — Praxis, Redseer</li>
+        <li><b>Big strategy</b> — McKinsey / BCG / Bain</li>
+      </ul>
+      <p><b>Your edge:</b> Embedded execution, not decks. You stay after the strategy. 48-hour kickoff.</p>
+      <p><b>Your gap:</b> Named partners. Big-4 sell the partner's resume. Introduce your senior team with LinkedIn credentials, publications, and case studies tied to each partner.</p>
+    </div>
+
+    <div class="card">
+      <h3>Corporate training arena</h3>
+      <p class="sub">Competitors</p>
+      <ul>
+        <li><b>upGrad for Business</b></li>
+        <li><b>Harappa Education</b></li>
+        <li><b>Emeritus</b></li>
+        <li><b>Skill-Lync / Newton School</b> — technical</li>
+      </ul>
+      <p><b>Your edge:</b> POSH and compliance training bundled with legal advisory. Cohort-based senior leadership programs that link to your consulting.</p>
+      <p><b>Your gap:</b> Training arms of upGrad/Harappa have L&amp;D brand equity. Ship 3 flagship program pages with real alumni + outcomes.</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:28px">Positioning sentence to own</h3>
+  <div class="card">
+    <p style="font-size:18px"><b>"The only integrated advisory firm in India where the people who build your HRMS also run your HR, stand up your DPDP program, hire your engineers, and advise your board — all on one contract, with one account lead, in 48 hours."</b></p>
+    <p class="small">That sentence is defensible because there is literally nobody else doing products + services + integrated practice in India's B2B mid-market. Every piece of copy, every page, every pitch should be a variation of this.</p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- + TECH DEBT                                                    -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-tech" role="tabpanel">
+  <h2><small>+ Tech Debt + Testing</small>What to pay down in the codebase before adding more features.</h2>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Dual host / canonical bug <span class="pill p0">P0</span></h3>
+      <p><code>index.html</code> OG URL: <code>adviserve-website.vercel.app</code>. <code>SEOHead</code> canonical: <code>adviserve.in</code>. <code>src/lib/constants.ts</code> defines <code>SITE_URL</code>. Pick one, update everywhere, 301 redirect the preview domain.</p>
+    </div>
+
+    <div class="card">
+      <h3>Animation library redundancy <span class="pill p1">P1</span></h3>
+      <p><code>package.json</code> has all of: <code>framer-motion@12</code>, <code>motion@12</code> (same lib different import), <code>gsap@3</code>, <code>@gsap/react</code>, <code>lenis</code>, plus <code>three</code> + <code>@react-three/fiber</code> + <code>@react-three/drei</code>. That's ~1.5MB gzipped of animation/render libs in dependencies.</p>
+      <ul>
+        <li>Drop <code>motion</code> (redundant with <code>framer-motion</code>).</li>
+        <li>Decide: GSAP or Framer. Most timeline work is GSAP — lean there, remove Framer from files that only use it for simple fades.</li>
+        <li>Three.js only for specific components — verify it's code-split and not in the critical bundle.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Dead / duplicate components <span class="pill p1">P1</span></h3>
+      <p>In <code>components/ui/</code>: <code>demo.tsx</code>, <code>hero-demo.tsx</code>, <code>modern-hero-demo.tsx</code>, <code>modern-animated-hero-section.tsx</code>, <code>interactive-hero-backgrounds.tsx</code> — clear duplicates of hero experiments. Keep one, archive the rest (git history preserves them).</p>
+      <p>Same pattern for tabs: <code>tabs.tsx</code>, <code>vertical-tabs.tsx</code>, <code>why-adviserve-tabs.tsx</code>. Likely can consolidate to one with variants.</p>
+    </div>
+
+    <div class="card">
+      <h3>Bundle size <span class="pill p1">P1</span></h3>
+      <p>Home.tsx eagerly imports 15+ modules including GSAP and modern-hero-demo. Good that you lazy-load below-fold (Products, Testimonials, VerticalTabs). Verify via <code>vite-bundle-visualizer</code>:</p>
+      <pre>npx vite-bundle-visualizer</pre>
+      <p>Targets: initial JS &lt; 180KB gzipped, homepage LCP &lt; 2.5s on 4G mid-range phone.</p>
+    </div>
+
+    <div class="card">
+      <h3>Testing coverage <span class="pill p1">P1</span></h3>
+      <p>Three tests exist: <code>defaults.test.ts</code>, <code>parseJsonContent.test.ts</code>, <code>structuredData.test.ts</code>. Solid for data-layer, nothing for UI.</p>
+      <ul>
+        <li>Add <b>accessibility tests</b>: axe-core via vitest or Playwright + <code>@axe-core/playwright</code>.</li>
+        <li><b>Visual regression</b>: Chromatic, Percy, or Playwright screenshots — catches design drift.</li>
+        <li><b>E2E smoke</b>: book consultation flow · newsletter subscribe · search · nav. Playwright, one <code>happy-path.spec.ts</code>.</li>
+        <li><b>Unit</b>: extend to cover <code>useSiteContent</code>, <code>useSEOSettings</code>, <code>api.ts</code>.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Error handling &amp; empty states <span class="pill p2">P2</span></h3>
+      <p>Services/Products load via <code>publicApi</code> with fallback to defaults — good. But for error paths (network failure), users just see defaults silently. Add a subtle banner: "Showing cached content — live data unavailable" or a dev-only warning.</p>
+      <p>Empty states: "Coming Soon" on services is lovely; make sure every list (case studies, blog, careers, newsletters) has an equally considered empty state.</p>
+    </div>
+
+    <div class="card">
+      <h3>Security <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><code>dompurify</code> is installed — confirm it's applied to every <code>dangerouslySetInnerHTML</code> (tiptap editor output, service <code>content</code> field, etc.).</li>
+        <li>Add <b>CSP</b> via Vercel <code>vercel.json</code> — strict enough to block inline scripts (use nonces).</li>
+        <li>Admin auth: Supabase gate is in place — good. Rotate service role keys on any exposure; don't use <code>SUPABASE_SERVICE_ROLE_KEY</code> in client code.</li>
+        <li>Rate limiting on public form endpoints (<code>/api/*</code>) — Supabase Edge Functions or Vercel middleware.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Analytics &amp; observability <span class="pill p1">P1</span></h3>
+      <ul>
+        <li><code>usePageTracking</code> exists — verify it ships events to a real analytics tool (GA4, Plausible, PostHog, Amplitude).</li>
+        <li>Conversion events: Book Consultation submit, Newsletter subscribe, Product signup, Contact form submit, File download — instrument each.</li>
+        <li>Error monitoring: Sentry or LogRocket. Free tier covers plenty.</li>
+        <li>Core Web Vitals: Vercel Speed Insights (one-click).</li>
+        <li>Search Console + Bing Webmaster Tools — verify ownership &amp; submit sitemap.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>CMS data model <span class="pill p2">P2</span></h3>
+      <p>Content is a mix of hard-coded <code>defaults.ts</code> and CMS-backed (Supabase). That's fine for v1, but:</p>
+      <ul>
+        <li>Move all hero / section text to CMS — marketing shouldn't need a deploy to change copy.</li>
+        <li>Build a <b>content preview</b> in admin (click "Preview" on a service/product and see it rendered).</li>
+        <li>Add <b>draft &amp; schedule</b> support for blog posts (mentioned in <code>parseJsonContent</code> tests; verify end-to-end).</li>
+        <li>Consider migrating to Sanity or Payload CMS if the admin-in-SPA overhead keeps growing — you have 25+ admin routes already.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>Build &amp; CI <span class="pill p2">P2</span></h3>
+      <ul>
+        <li>GitHub Actions / Vercel: on PR, run <code>tsc --noEmit</code>, <code>eslint</code>, <code>vitest run</code>, <code>playwright test</code> smoke.</li>
+        <li>Preview deployments with comment bot (Vercel does this out of the box).</li>
+        <li>Add Lighthouse CI on the main 6 pages; fail PR on CWV regression.</li>
+        <li>Dependabot / Renovate for weekly dep updates.</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>TypeScript strictness <span class="pill p2">P2</span></h3>
+      <p>Check <code>tsconfig.json</code> for <code>strict: true</code>, <code>noUncheckedIndexedAccess: true</code>, <code>exactOptionalPropertyTypes: true</code>. On a codebase this size, looser TS creates silent regressions. Bump strictness one flag at a time.</p>
+    </div>
+
+    <div class="card">
+      <h3>Accessibility in CI <span class="pill p1">P1</span></h3>
+      <p>Run <code>axe-core</code> on every route in Playwright CI. Set a hard budget: zero <b>serious</b> or <b>critical</b> violations. Moderate violations get ticketed. This is how you make a11y not decay.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- → 90-DAY ROADMAP                                               -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section class="panel" id="panel-roadmap" role="tabpanel">
+  <h2><small>→ 90-day Execution Roadmap</small>If you do nothing else, do this.</h2>
+  <p class="intro">
+    Prioritized, sequenced so each week's output compounds the next. This assumes 1 PM/owner + 2 devs + 1 designer + 1 content lead.
+  </p>
+
+  <div class="grid g2">
+    <div class="card">
+      <h3>Weeks 1–2 — Foundations</h3>
+      <ul>
+        <li>Pick canonical host. 301 redirect. Update all URLs.</li>
+        <li>Ship <code>robots.txt</code> + <code>sitemap.xml</code> (build-time generated).</li>
+        <li>Add pre-rendering (<code>react-snap</code> or migrate to Next.js SSR if you're committing).</li>
+        <li>Fix double-branded titles in <code>SEOHead</code>.</li>
+        <li>Ship <code>/llms.txt</code> + <code>/about/company-facts</code> for AEO.</li>
+        <li>Fix image alt text everywhere. Self-host top 20 critical images.</li>
+        <li>Set up GA4 + Search Console + Speed Insights + Sentry.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Weeks 3–4 — Conversion surfaces</h3>
+      <ul>
+        <li>Ship <code>/pricing</code>.</li>
+        <li>Ship dedicated landing pages for Adviserve People &amp; Adviserve Hire.</li>
+        <li>Rework homepage section order (Products moves up; real case studies replace anon testimonials).</li>
+        <li>Add FAQ block + FAQPage schema to homepage + every service/product.</li>
+        <li>Launch DPDP readiness assessment tool (lead magnet #1).</li>
+        <li>Rebuild footer with 6 columns.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Weeks 5–6 — Content &amp; AEO</h3>
+      <ul>
+        <li>Publish DPDP pillar (5 articles) + POSH pillar (3 articles).</li>
+        <li>Ship 5 comparison pages (see AEO tab).</li>
+        <li>Ship glossary (15 terms) with DefinedTerm schema.</li>
+        <li>Ship HRMS ROI calculator (lead magnet #2).</li>
+        <li>Commission team photoshoot.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Weeks 7–8 — GEO &amp; Industries</h3>
+      <ul>
+        <li>Launch 6 city landing pages with LocalBusiness schema.</li>
+        <li>Launch 4 flagship industry pages (Tech, BFSI, Healthcare, Manufacturing).</li>
+        <li>Set up Google Business Profiles per city.</li>
+        <li>Submit to NASSCOM / FICCI / chambers of commerce.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Weeks 9–10 — Case studies &amp; trust</h3>
+      <ul>
+        <li>Ship 3 real, named case studies with metrics + quotes + logos.</li>
+        <li>Launch /security and /accessibility pages.</li>
+        <li>Replace placeholder testimonials with 3 named clients.</li>
+        <li>Add a client logo wall above the fold.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Weeks 11–12 — Polish &amp; measure</h3>
+      <ul>
+        <li>Run full accessibility audit (axe + manual SR walkthrough). Fix criticals.</li>
+        <li>Consolidate animation libraries; kill unused components.</li>
+        <li>Run Lighthouse CI baseline. Fix anything &lt; 85 mobile perf.</li>
+        <li>Ship 3 more lead magnets (CTC calc · POSH checklist · Hiring cost calc).</li>
+        <li>Write the Q2 content calendar based on what ranked.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="margin-top:24px">What success looks like in 90 days</h3>
+  <div class="card">
+    <table>
+      <tr><th>Metric</th><th>Baseline (est.)</th><th>90-day target</th></tr>
+      <tr><td>Organic monthly sessions</td><td>~500–2,000</td><td>10,000+</td></tr>
+      <tr><td>Indexed pages</td><td>20–40</td><td>200+</td></tr>
+      <tr><td>Pages with FAQ schema</td><td>0–1</td><td>40+</td></tr>
+      <tr><td>Lead magnet submissions / month</td><td>0</td><td>150+</td></tr>
+      <tr><td>Demo requests / month</td><td>unknown</td><td>50+ qualified</td></tr>
+      <tr><td>City pages ranking top-10 for "HR services {city}"</td><td>0</td><td>3+</td></tr>
+      <tr><td>LLM citations (Perplexity/ChatGPT) for DPDP queries</td><td>0</td><td>some traction</td></tr>
+      <tr><td>Lighthouse mobile perf</td><td>likely 55–70</td><td>85+</td></tr>
+      <tr><td>WCAG AA axe violations (critical/serious)</td><td>unknown (&gt;0 likely)</td><td>0</td></tr>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer class="doc">
+  <div>Audit generated 2026-04-24 · Based on repo snapshot at <code>D:\Website_Adviserve.talent\Adviserve-Website</code></div>
+  <div>9 parameters · 13 sections · 150+ actionable recommendations</div>
+</footer>
+
+<script>
+  // Tab switching
+  const tabs = document.querySelectorAll('.tab-btn');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const id = btn.getAttribute('data-tab');
+      tabs.forEach(b => b.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      const panel = document.getElementById('panel-' + id);
+      if (panel) panel.classList.add('active');
+      // Scroll panel into view smoothly on mobile
+      if (window.matchMedia('(max-width: 900px)').matches && panel) {
+        panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      // Update URL hash without scroll jump
+      history.replaceState(null, '', '#' + id);
+    });
+  });
+  // Open tab from hash on load
+  const initial = (location.hash || '').replace('#', '');
+  if (initial) {
+    const btn = document.querySelector('.tab-btn[data-tab="' + initial + '"]');
+    if (btn) btn.click();
+  }
+  // Keyboard navigation between tabs
+  document.querySelector('nav.tabs').addEventListener('keydown', (e) => {
+    if (!['ArrowLeft','ArrowRight','Home','End'].includes(e.key)) return;
+    e.preventDefault();
+    const active = document.querySelector('.tab-btn.active');
+    const all = Array.from(document.querySelectorAll('.tab-btn'));
+    const i = all.indexOf(active);
+    let next = i;
+    if (e.key === 'ArrowLeft')  next = (i - 1 + all.length) % all.length;
+    if (e.key === 'ArrowRight') next = (i + 1) % all.length;
+    if (e.key === 'Home')       next = 0;
+    if (e.key === 'End')        next = all.length - 1;
+    all[next].click();
+    all[next].focus();
+  });
+</script>
+
+</body>
+</html>

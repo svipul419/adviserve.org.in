@@ -1,0 +1,1232 @@
+{
+  "baseUrl": "http://localhost:5173",
+  "generatedAt": "2026-05-13T12:33:06.038Z",
+  "routes": [
+    {
+      "route": "/",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [
+        {
+          "url": "http://localhost:5173/Hero-BG.mp4",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "screenshot": "home-desktop.png"
+    },
+    {
+      "route": "/about",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "about-desktop.png"
+    },
+    {
+      "route": "/services",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-desktop.png"
+    },
+    {
+      "route": "/services/cybersecurity",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-cybersecurity-desktop.png"
+    },
+    {
+      "route": "/services/compliance-regtech",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-compliance-regtech-desktop.png"
+    },
+    {
+      "route": "/products",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "products-desktop.png"
+    },
+    {
+      "route": "/products/dpdp-compliance",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "products-dpdp-compliance-desktop.png"
+    },
+    {
+      "route": "/insights",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "insights-desktop.png"
+    },
+    {
+      "route": "/case-studies",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "case-studies-desktop.png"
+    },
+    {
+      "route": "/team",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "team-desktop.png"
+    },
+    {
+      "route": "/careers",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "careers-desktop.png"
+    },
+    {
+      "route": "/contact",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "contact-desktop.png"
+    },
+    {
+      "route": "/consultation",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "consultation-desktop.png"
+    },
+    {
+      "route": "/faq",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "faq-desktop.png"
+    },
+    {
+      "route": "/trust",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "trust-desktop.png"
+    },
+    {
+      "route": "/industries",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "industries-desktop.png"
+    },
+    {
+      "route": "/partnerships",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "partnerships-desktop.png"
+    },
+    {
+      "route": "/dpdp-assessment",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "dpdp-assessment-desktop.png"
+    },
+    {
+      "route": "/privacy",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "privacy-desktop.png"
+    },
+    {
+      "route": "/terms",
+      "viewport": "desktop",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "terms-desktop.png"
+    },
+    {
+      "route": "/",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [
+        {
+          "url": "http://localhost:5173/Hero-BG.mp4",
+          "failure": "net::ERR_ABORTED"
+        }
+      ],
+      "status": 200,
+      "screenshot": "home-mobile.png"
+    },
+    {
+      "route": "/about",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "about-mobile.png"
+    },
+    {
+      "route": "/services",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-mobile.png"
+    },
+    {
+      "route": "/services/cybersecurity",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-cybersecurity-mobile.png"
+    },
+    {
+      "route": "/services/compliance-regtech",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "services-compliance-regtech-mobile.png"
+    },
+    {
+      "route": "/products",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "products-mobile.png"
+    },
+    {
+      "route": "/products/dpdp-compliance",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "products-dpdp-compliance-mobile.png"
+    },
+    {
+      "route": "/insights",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "insights-mobile.png"
+    },
+    {
+      "route": "/case-studies",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "case-studies-mobile.png"
+    },
+    {
+      "route": "/team",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "team-mobile.png"
+    },
+    {
+      "route": "/careers",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "careers-mobile.png"
+    },
+    {
+      "route": "/contact",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "contact-mobile.png"
+    },
+    {
+      "route": "/consultation",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "consultation-mobile.png"
+    },
+    {
+      "route": "/faq",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "faq-mobile.png"
+    },
+    {
+      "route": "/trust",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "trust-mobile.png"
+    },
+    {
+      "route": "/industries",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "industries-mobile.png"
+    },
+    {
+      "route": "/partnerships",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "partnerships-mobile.png"
+    },
+    {
+      "route": "/dpdp-assessment",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "dpdp-assessment-mobile.png"
+    },
+    {
+      "route": "/privacy",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "privacy-mobile.png"
+    },
+    {
+      "route": "/terms",
+      "viewport": "mobile",
+      "console": [
+        {
+          "type": "warning",
+          "text": "[supabase] Missing or placeholder VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY — using stub client. Admin routes will show \"not authenticated\"."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: React Router will begin wrapping state updates in `React.startTransition` in v7. You can use the `v7_startTransition` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_starttransition."
+        },
+        {
+          "type": "warning",
+          "text": "⚠️ React Router Future Flag Warning: Relative route resolution within Splat routes is changing in v7. You can use the `v7_relativeSplatPath` future flag to opt-in early. For more information, see https://reactrouter.com/v6/upgrading/future#v7_relativesplatpath."
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Failed to fetch footer settings: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        },
+        {
+          "type": "error",
+          "text": "Error fetching legal document: SyntaxError: Unexpected token 'i', \"import { g\"... is not valid JSON"
+        }
+      ],
+      "errors": [],
+      "failedRequests": [],
+      "status": 200,
+      "screenshot": "terms-mobile.png"
+    }
+  ]
+}

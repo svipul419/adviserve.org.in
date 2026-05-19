@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Adviserve - Brutalist Editorial Hero Preview</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Archivo:wght@800;900&family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'brand-teal': '#6dd4c4',
+          'brand-ink': '#0a0a0a',
+          'brand-mute': '#9ca3af'
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif'],
+          display: ['Archivo Black', 'Archivo', 'Inter', 'sans-serif'],
+          mono: ['JetBrains Mono', 'ui-monospace', 'monospace']
+        }
+      }
+    }
+  };
+</script>
+
+<style>
+  :root {
+    --brand-teal: #6dd4c4;
+    --brand-ink: #0a0a0a;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    background: var(--brand-ink);
+    color: #ffffff;
+    font-family: 'Inter', system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* ---------------------------------------------------------
+     HERO LAYOUT — absolute positioned, layered z-index stack
+     --------------------------------------------------------- */
+  .hero-stage {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 720px;
+    overflow: hidden;
+    background: var(--brand-ink);
+  }
+
+  /* Subtle grid background — z-index 0 */
+  .hero-grid-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none;
+  }
+
+  /* Top wordmark — z-index 50 */
+  .hero-wordmark {
+    position: absolute;
+    top: 32px;
+    left: 32px;
+    z-index: 50;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    line-height: 1;
+  }
+
+  /* Top nav — z-index 50 */
+  .hero-nav {
+    position: absolute;
+    top: 32px;
+    right: 32px;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 28px;
+  }
+  .hero-nav a {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    color: #ffffff;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  .hero-nav a:hover { color: var(--brand-teal); }
+
+  /* Photo placeholder — right half, z-index 10 */
+  .hero-photo {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    z-index: 10;
+    overflow: hidden;
+    background:
+      radial-gradient(120% 80% at 30% 20%, rgba(109, 212, 196, 0.10) 0%, rgba(0,0,0,0) 55%),
+      linear-gradient(135deg, #0d0d0d 0%, #1a2030 50%, #0a0a0a 100%);
+    isolation: isolate;
+  }
+  .hero-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at center, rgba(0,0,0,0) 40%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .hero-photo-label {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 5;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--brand-teal);
+    opacity: 0.6;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* Massive split letters — display type */
+  .split-word {
+    position: absolute;
+    font-family: 'Archivo Black', 'Archivo', 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(120px, 18vw, 320px);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+    color: var(--brand-teal);
+    user-select: none;
+    will-change: transform, opacity, filter;
+    text-transform: uppercase;
+    margin: 0;
+    padding: 0;
+  }
+
+  #split-advi {
+    top: 12vh;
+    left: 3%;
+    z-index: 20;
+  }
+  #split-ser {
+    top: 36%;
+    left: 36%;
+    z-index: 30;
+  }
+  #split-ve {
+    bottom: -3%;
+    right: 10%;
+    z-index: 20;
+  }
+
+  /* Top-right callout — z-index 40 */
+  .hero-callout {
+    position: absolute;
+    top: 22%;
+    right: 5%;
+    width: 340px;
+    max-width: 38vw;
+    z-index: 40;
+    border-left: 3px solid var(--brand-teal);
+    padding-left: 16px;
+  }
+  .hero-callout .callout-line {
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 28px;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .hero-callout .callout-line.is-teal {
+    color: var(--brand-teal);
+  }
+  .hero-callout .callout-sub {
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    line-height: 1.5;
+  }
+
+  /* Phase columns — bottom row, z-index 25 */
+  .hero-phases {
+    position: absolute;
+    bottom: 6%;
+    left: 5%;
+    width: 90%;
+    z-index: 25;
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+  }
+  .phase-col { flex: 0 1 auto; }
+  .phase-marker {
+    width: 4px;
+    height: 4px;
+    background: var(--brand-teal);
+    margin-bottom: 12px;
+  }
+  .phase-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 32px;
+    color: #ffffff;
+    line-height: 1;
+    letter-spacing: -0.01em;
+  }
+  .phase-label {
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .phase-slash { color: var(--brand-teal); }
+  .phase-scope-word { color: var(--brand-teal); }
+
+  /* Bottom-left IDX + service list — z-index 25 */
+  .hero-idx-block {
+    position: absolute;
+    bottom: 14%;
+    left: 3%;
+    z-index: 25;
+  }
+  .idx-mini {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    line-height: 1.4;
+  }
+  .idx-year {
+    display: block;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--brand-teal);
+    letter-spacing: 0.14em;
+  }
+  .idx-rule {
+    width: 60px;
+    height: 1px;
+    background: rgba(255,255,255,0.2);
+    margin: 14px 0;
+  }
+  .service-list {
+    list-style: none;
+    margin: 0;
+    padding: 0 0 0 12px;
+    border-left: 2px solid var(--brand-teal);
+  }
+  .service-list li {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.6;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+    text-transform: uppercase;
+  }
+
+  /* ---------------------------------------------------------
+     Ghost EXPLORE word (revealed on scroll-collapse)
+     --------------------------------------------------------- */
+  .ghost-explore-wrap {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .ghost-explore {
+    font-family: 'Archivo Black', 'Archivo', 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(220px, 32vw, 560px);
+    line-height: 0.8;
+    letter-spacing: -0.05em;
+    color: rgba(255,255,255,0.08);
+    opacity: 0;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    text-transform: lowercase;
+  }
+
+  /* ---------------------------------------------------------
+     MANIFESTO SECTION
+     --------------------------------------------------------- */
+  .manifesto-line {
+    font-family: 'Archivo Black', 'Archivo', 'Inter', sans-serif;
+    font-weight: 900;
+    font-size: clamp(54px, 7.5vw, 124px);
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    color: #ffffff;
+    text-transform: uppercase;
+    overflow: hidden;
+    margin: 0;
+  }
+  .manifesto-line .inner {
+    display: inline-block;
+    transform: translateY(40px);
+    opacity: 0;
+    will-change: transform, opacity;
+  }
+  .manifesto-line.is-teal .inner { color: var(--brand-teal); }
+
+  .manifesto-photo {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    background:
+      radial-gradient(120% 80% at 30% 20%, rgba(109, 212, 196, 0.12) 0%, rgba(0,0,0,0) 55%),
+      linear-gradient(160deg, #0d2b27 0%, #0a1816 35%, #050505 100%);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  .manifesto-photo::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.45 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+    mix-blend-mode: overlay;
+    opacity: 0.45;
+    pointer-events: none;
+  }
+  .manifesto-photo-label {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 5;
+    color: var(--brand-teal);
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .meta-mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .scroll-cue {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.24em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+
+  /* ---------------------------------------------------------
+     Reduced motion
+     --------------------------------------------------------- */
+  @media (prefers-reduced-motion: reduce) {
+    .split-word, .ghost-explore, .manifesto-line .inner {
+      opacity: 1 !important;
+      transform: none !important;
+      filter: none !important;
+    }
+    .ghost-explore { opacity: 0.10 !important; }
+  }
+
+  /* ---------------------------------------------------------
+     Responsive — tablet & mobile
+     --------------------------------------------------------- */
+  @media (max-width: 1280px) {
+    .hero-callout { width: 300px; }
+    .hero-callout .callout-line { font-size: 24px; }
+  }
+
+  @media (max-width: 1024px) {
+    .hero-nav { gap: 18px; }
+    .hero-nav a { font-size: 11px; }
+    .hero-callout {
+      width: 260px;
+      top: 18%;
+      right: 4%;
+    }
+    .hero-callout .callout-line { font-size: 20px; }
+    .split-word { font-size: clamp(96px, 16vw, 200px); }
+    #split-advi { top: 10vh; left: 4%; }
+    #split-ser { top: 33%; left: 30%; }
+    #split-ve { bottom: -2%; right: 8%; }
+    .service-list li { font-size: 12px; }
+    .phase-num { font-size: 24px; }
+    .hero-photo { width: 55%; }
+  }
+
+  @media (max-width: 768px) {
+    .hero-stage { min-height: 640px; }
+    .hero-photo {
+      width: 100%;
+      height: 50%;
+      top: auto;
+      bottom: 0;
+      opacity: 0.45;
+    }
+    .hero-wordmark { top: 20px; left: 20px; font-size: 18px; }
+    .hero-nav { display: none; }
+    .split-word { font-size: clamp(70px, 22vw, 140px); }
+    #split-advi { top: 8vh; left: 5%; }
+    #split-ser { top: 28%; left: 18%; }
+    #split-ve { bottom: 12%; right: 6%; }
+    .hero-callout {
+      top: auto;
+      bottom: 32%;
+      right: 5%;
+      left: 5%;
+      width: auto;
+      max-width: none;
+    }
+    .hero-callout .callout-line { font-size: 18px; }
+    .hero-phases {
+      bottom: 4%;
+      gap: 8px;
+    }
+    .phase-num { font-size: 18px; }
+    .phase-label { font-size: 9px; letter-spacing: 0.08em; }
+    .hero-idx-block { display: none; }
+  }
+
+  @media (max-width: 480px) {
+    .split-word { font-size: 64px; }
+    .hero-callout .callout-line { font-size: 16px; }
+    .hero-callout .callout-sub { font-size: 9px; }
+  }
+</style>
+</head>
+
+<body class="bg-brand-ink text-white">
+
+<!-- =========================================================
+     HERO + SCROLL-COLLAPSE (PINNED)
+     ========================================================= -->
+<section id="hero-pin" class="relative w-full" style="height: 100vh;">
+  <div id="hero-stage" class="hero-stage">
+
+    <!-- (z 0) Subtle grid background -->
+    <div class="hero-grid-bg"></div>
+
+    <!-- (z 5) Ghost EXPLORE word -- revealed on scroll-collapse -->
+    <div id="ghost-explore" class="ghost-explore-wrap">
+      <span class="ghost-explore">explore</span>
+    </div>
+
+    <!-- (z 10) Photo placeholder, right half -->
+    <div class="hero-photo" id="hero-photo">
+      <span class="hero-photo-label">[ REPLACE WITH BRAND PHOTO ]</span>
+    </div>
+
+    <!-- (z 20) Massive split letter — ADVI (top-left) -->
+    <div id="split-advi" class="split-word">ADVI</div>
+
+    <!-- (z 30) Massive split letter — SER (intersects photo) -->
+    <div id="split-ser" class="split-word">SER</div>
+
+    <!-- (z 20) Massive split letter — VE (bottom-right, partially clipped) -->
+    <div id="split-ve" class="split-word">VE</div>
+
+    <!-- (z 25) Bottom-left IDX + service list -->
+    <div id="bottom-left" class="hero-idx-block">
+      <div class="idx-mini">
+        IDX/ADV
+        <span class="idx-year">2026</span>
+      </div>
+      <div class="idx-rule"></div>
+      <ul class="service-list">
+        <li>PEOPLE OPS</li>
+        <li>COMPLIANCE</li>
+        <li>HIRING</li>
+        <li>TRAINING</li>
+        <li>LEGAL</li>
+        <li>IT</li>
+      </ul>
+    </div>
+
+    <!-- (z 25) Bottom phase columns -->
+    <div id="phase-row" class="hero-phases">
+      <div class="phase-col">
+        <div class="phase-marker"></div>
+        <div class="phase-num">001</div>
+        <div class="phase-label" data-label="PHASE/SCOPE">PHASE<span class="phase-slash">/</span><span class="phase-scope-word">SCOPE</span></div>
+      </div>
+      <div class="phase-col">
+        <div class="phase-marker"></div>
+        <div class="phase-num">002</div>
+        <div class="phase-label" data-label="PHASE/DESIGN">PHASE<span class="phase-slash">/</span><span class="phase-scope-word">DESIGN</span></div>
+      </div>
+      <div class="phase-col">
+        <div class="phase-marker"></div>
+        <div class="phase-num">003</div>
+        <div class="phase-label" data-label="PHASE/SHIP">PHASE<span class="phase-slash">/</span><span class="phase-scope-word">SHIP</span></div>
+      </div>
+      <div class="phase-col">
+        <div class="phase-marker"></div>
+        <div class="phase-num">004</div>
+        <div class="phase-label" data-label="PHASE/SCALE">PHASE<span class="phase-slash">/</span><span class="phase-scope-word">SCALE</span></div>
+      </div>
+    </div>
+
+    <!-- (z 40) Top-right callout -->
+    <div id="callout" class="hero-callout">
+      <div class="callout-line is-teal">YOU BUILD WHAT YOU DO BEST.</div>
+      <div class="callout-line">WE OWN THE</div>
+      <div class="callout-line">AUDITS.</div>
+      <div class="callout-sub">
+        COMPLIANCE-FIRST &middot; AI-AUGMENTED &middot; ALWAYS TRANSPARENT
+      </div>
+    </div>
+
+    <!-- (z 50) Top-left wordmark -->
+    <div class="hero-wordmark">adviserve</div>
+
+    <!-- (z 50) Top-right nav -->
+    <nav class="hero-nav">
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">Services</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+
+  </div>
+</section>
+
+<!-- =========================================================
+     MANIFESTO SECTION
+     ========================================================= -->
+<section id="manifesto" class="relative w-full min-h-screen px-8 py-24 md:px-16 md:py-32">
+  <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-start">
+
+    <!-- Left: second photo placeholder -->
+    <div class="md:col-span-5">
+      <div class="manifesto-photo">
+        <span class="manifesto-photo-label">[ Replace with brand photo ]</span>
+      </div>
+      <div class="meta-mono mt-6" style="color:#9ca3af;">
+        Adviserve &nbsp;/&nbsp; <span style="color:#6dd4c4;">Est. 2017</span> &nbsp;/&nbsp; Operating in India
+      </div>
+    </div>
+
+    <!-- Right: giant headline -->
+    <div class="md:col-span-7">
+      <div class="manifesto-line"><span class="inner">We Build</span></div>
+      <div class="manifesto-line"><span class="inner">Operational</span></div>
+      <div class="manifesto-line"><span class="inner">Infrastructure</span></div>
+      <div class="manifesto-line"><span class="inner">For Indian</span></div>
+      <div class="manifesto-line"><span class="inner">Businesses That</span></div>
+      <div class="manifesto-line is-teal"><span class="inner">Refuse to Plateau.</span></div>
+
+      <div class="mt-12 flex items-center gap-6 scroll-cue">
+        <span>&darr; Continue</span>
+        <span style="color:#6dd4c4;">- end of preview -</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- =========================================================
+     SCRIPTS — GSAP scroll choreography
+     ========================================================= -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+(function () {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // If reduced motion, force final state and exit.
+  if (reduceMotion) {
+    document.querySelectorAll('.split-word').forEach(el => {
+      el.style.opacity = 1; el.style.transform = 'none'; el.style.filter = 'none';
+    });
+    document.querySelectorAll('.manifesto-line .inner').forEach(el => {
+      el.style.opacity = 1; el.style.transform = 'none';
+    });
+    document.querySelector('.ghost-explore').style.opacity = 0.10;
+    return;
+  }
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ---- Hero entrance: split letters in
+  const splits = ['#split-advi', '#split-ser', '#split-ve'];
+  gsap.set(splits, { opacity: 0, y: 60, filter: 'blur(12px)' });
+  gsap.to(splits, {
+    opacity: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    duration: 1,
+    stagger: 0.12,
+    ease: 'power3.out',
+    delay: 0.15
+  });
+
+  // Callout + bottom rows fade in lightly after letters
+  gsap.from(['#callout', '#phase-row', '#bottom-left'], {
+    opacity: 0,
+    y: 20,
+    duration: 0.8,
+    stagger: 0.08,
+    ease: 'power2.out',
+    delay: 0.65
+  });
+
+  // ---- Hero scroll-collapse (pinned, scrubbed)
+  const heroTl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '#hero-pin',
+      start: 'top top',
+      end: '+=120%',
+      pin: '#hero-stage',
+      scrub: 1,
+      anticipatePin: 1
+    }
+  });
+
+  heroTl
+    .to('#split-advi', { y: -120, scale: 0.78, ease: 'none' }, 0)
+    .to('#split-ser',  { y: -80,  scale: 0.82, ease: 'none' }, 0)
+    .to('#split-ve',   { y: -180, scale: 0.74, ease: 'none' }, 0)
+    .to('#callout',     { opacity: 0, y: -20, ease: 'none' }, 0)
+    .to('#phase-row',   { opacity: 0, y: 20,  ease: 'none' }, 0)
+    .to('#bottom-left', { opacity: 0, y: 20,  ease: 'none' }, 0)
+    .to('#hero-photo',  { scale: 1.04, ease: 'none' }, 0)
+    // explore ghost: fade in across 0.4 -> 0.7 of scrub
+    .to('.ghost-explore', { opacity: 0, ease: 'none' }, 0)
+    .to('.ghost-explore', { opacity: 0.12, ease: 'power1.inOut' }, 0.4);
+
+  // ---- Manifesto word reveal
+  ScrollTrigger.create({
+    trigger: '#manifesto',
+    start: 'top 70%',
+    onEnter: () => {
+      gsap.to('.manifesto-line .inner', {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        stagger: 0.08,
+        ease: 'power3.out'
+      });
+    },
+    once: true
+  });
+})();
+</script>
+
+</body>
+</html>

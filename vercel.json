@@ -1,0 +1,53 @@
+{
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "X-XSS-Protection", "value": "1; mode=block" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
+        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" },
+        { "key": "Content-Security-Policy", "value": "default-src 'self'; script-src 'self' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://*.supabase.in https://*.neon.tech https://*.vercel-storage.com https://*.public.blob.vercel-storage.com; frame-ancestors 'none'" }
+      ]
+    }
+  ],
+  "redirects": [
+    { "source": "/home", "destination": "/", "permanent": true },
+    { "source": "/testimonials", "destination": "/case-studies", "permanent": true },
+    { "source": "/newsletters", "destination": "/insights", "permanent": true },
+    { "source": "/blog", "destination": "/insights", "permanent": true }
+  ],
+  "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/api/cms/sitemap" },
+
+    { "source": "/api/v1/:path*", "destination": "/api/:path*" },
+
+    { "source": "/api/content",            "destination": "/api/cms/content" },
+    { "source": "/api/settings",           "destination": "/api/cms/settings" },
+    { "source": "/api/menu",               "destination": "/api/cms/menu" },
+    { "source": "/api/logo",               "destination": "/api/cms/logo" },
+    { "source": "/api/legal",              "destination": "/api/cms/legal" },
+    { "source": "/api/sitemap",            "destination": "/api/cms/sitemap" },
+
+    { "source": "/api/services",           "destination": "/api/catalog/services" },
+    { "source": "/api/products",           "destination": "/api/catalog/products" },
+    { "source": "/api/case-studies",       "destination": "/api/catalog/case-studies" },
+    { "source": "/api/blog",               "destination": "/api/catalog/blog" },
+    { "source": "/api/careers",            "destination": "/api/catalog/careers" },
+
+    { "source": "/api/contact",            "destination": "/api/forms/contact" },
+    { "source": "/api/subscribe",          "destination": "/api/forms/subscribe" },
+    { "source": "/api/unsubscribe",        "destination": "/api/forms/unsubscribe" },
+    { "source": "/api/booking",            "destination": "/api/forms/booking" },
+    { "source": "/api/apply",              "destination": "/api/forms/apply" },
+    { "source": "/api/dpdp-assessment",    "destination": "/api/forms/dpdp-assessment" },
+    { "source": "/api/newsletter-archive", "destination": "/api/forms/newsletter-archive" },
+
+    { "source": "/api/upload",             "destination": "/api/files/upload" },
+    { "source": "/api/blob-token",         "destination": "/api/files/blob-token" },
+
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
