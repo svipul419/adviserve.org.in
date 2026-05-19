@@ -24,7 +24,7 @@ const PARTNER_CATEGORIES = [
 export default function Partnerships() {
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Partnerships | Adviserve" description="Strategic technology and delivery partnerships. Active engagement, formal listings to follow." canonical="https://adviserve.in/partnerships" />
+      <SEOHead title="Partnerships | Adviserve" description="Strategic technology and delivery partnerships. Active engagement, formal listings to follow." canonical="https://adviserve.org.in/partnerships" />
 
       <EngineeringHero
         eyebrow="If you build the tools, we bring the demand"

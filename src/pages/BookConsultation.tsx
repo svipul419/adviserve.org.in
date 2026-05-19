@@ -209,7 +209,7 @@ export default function BookConsultation() {
       <SEOHead
         title="Book a Free Consultation | Adviserve Business Advisory"
         description="Schedule a free 30-minute consultation with Adviserve. Discuss recruitment, HR, legal, IT, or strategy needs — no commitment required."
-        canonical="https://adviserve.in/book"
+        canonical="https://adviserve.org.in/book"
       />
 
       <EngineeringHero

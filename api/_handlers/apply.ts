@@ -136,7 +136,7 @@ export default async function handler(request: Request) {
       const safeCover = cover_message ? escapeHtml(cover_message.trim()) : '';
 
       // TODO(config): replace `onboarding@resend.dev` with a verified sender
-      // domain (e.g. notifications@adviserve.in) once DNS is set up in Resend.
+      // domain (e.g. notifications@adviserve.org.in) once DNS is set up in Resend.
       // The default sandbox sender is rate-limited and blocked for many
       // recipient providers in production.
       const fromAddress = process.env.RESEND_FROM_ADDRESS || 'onboarding@resend.dev';

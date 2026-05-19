@@ -35,7 +35,7 @@ const DEFAULT_LEGAL_DOCS: Record<string, { title: string; content: string }> = {
 <p><em>Last updated: [date]</em></p>
 
 <h2>1. Who we are</h2>
-<p>Adviserve Talent &amp; Consulting Private Limited (CIN U78100BR2026PTC082936), registered office at [address]. Website: adviserve.in.</p>
+<p>Adviserve Talent &amp; Consulting Private Limited (CIN U78100BR2026PTC082936), registered office at [address]. Website: adviserve.org.in.</p>
 
 <h2>2. What personal data we collect</h2>
 <p>Name, email, phone, company, role, IP address, browser data, cookies, message content from forms or email.</p>
@@ -56,7 +56,7 @@ const DEFAULT_LEGAL_DOCS: Record<string, { title: string; content: string }> = {
 <p>Data may be processed outside India, subject to DPDP Act safeguards.</p>
 
 <h2>8. Your rights</h2>
-<p>Access, correction, erasure, grievance redressal, consent withdrawal. Contact: <a href="mailto:privacy@adviserve.in">privacy@adviserve.in</a>.</p>
+<p>Access, correction, erasure, grievance redressal, consent withdrawal. Contact: <a href="mailto:privacy@adviserve.org.in">privacy@adviserve.org.in</a>.</p>
 
 <h2>9. Grievance officer</h2>
 <p>[Name, designation, email — to be filled].</p>
@@ -74,7 +74,7 @@ const DEFAULT_LEGAL_DOCS: Record<string, { title: string; content: string }> = {
 <p>Posted here with revised "last updated" date.</p>
 
 <h2>14. Contact</h2>
-<p><a href="mailto:privacy@adviserve.in">privacy@adviserve.in</a></p>
+<p><a href="mailto:privacy@adviserve.org.in">privacy@adviserve.org.in</a></p>
 `,
   },
   terms: {
@@ -83,7 +83,7 @@ const DEFAULT_LEGAL_DOCS: Record<string, { title: string; content: string }> = {
 <p><em>Last updated: [date]</em></p>
 
 <h2>1. Acceptance</h2>
-<p>Use of adviserve.in constitutes acceptance.</p>
+<p>Use of adviserve.org.in constitutes acceptance.</p>
 
 <h2>2. Services</h2>
 <p>Information, booking consultations, product trials, newsletter subscription.</p>
@@ -119,7 +119,7 @@ const DEFAULT_LEGAL_DOCS: Record<string, { title: string; content: string }> = {
 <p>Posted here with revised "last updated" date.</p>
 
 <h2>13. Contact</h2>
-<p><a href="mailto:legal@adviserve.in">legal@adviserve.in</a></p>
+<p><a href="mailto:legal@adviserve.org.in">legal@adviserve.org.in</a></p>
 `,
   },
 };
@@ -216,7 +216,7 @@ export default function LegalDocument() {
       <SEOHead
         title={document.title}
         description={`${document.title} for Adviserve — India's trusted HR, recruitment & business advisory partner.`}
-        canonical={`https://adviserve.in/${getSlugFromPath()}`}
+        canonical={`https://adviserve.org.in/${getSlugFromPath()}`}
       />
 
       {/* Header */}

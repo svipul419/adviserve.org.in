@@ -1494,9 +1494,9 @@ export default function Home() {
         canonical={cms.canonical_url}
         ogImage={cms.og_image}
         structuredData={[
-          generateOrganizationSchema({ business_name: 'Adviserve', website: 'https://adviserve.in', default_og_image: '/adviserve-logo.png' }),
-          generateWebSiteSchema({ business_name: 'Adviserve', website: 'https://adviserve.in' }),
-          generateBreadcrumbSchema([{ name: 'Home', url: 'https://adviserve.in/' }]),
+          generateOrganizationSchema({ business_name: 'Adviserve', website: 'https://adviserve.org.in', default_og_image: '/adviserve-logo.png' }),
+          generateWebSiteSchema({ business_name: 'Adviserve', website: 'https://adviserve.org.in' }),
+          generateBreadcrumbSchema([{ name: 'Home', url: 'https://adviserve.org.in/' }]),
         ]}
       />
 

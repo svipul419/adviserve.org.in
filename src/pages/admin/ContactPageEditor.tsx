@@ -24,7 +24,7 @@ export default function ContactPageEditor() {
   const [contactTitle, setContactTitle] = useState("Let's have a proper conversation.");
   const [contactIntro, setContactIntro] = useState('Not a discovery call. Not a demo. Just a straightforward conversation about your business, what you\'re trying to solve, and whether we\'re the right fit to help. Fill out the form and someone from our team will get back to you within 24 hours.');
   // Contact info
-  const [contactEmail, setContactEmail] = useState('hello@adviserve.in');
+  const [contactEmail, setContactEmail] = useState('hello@adviserve.org.in');
   const [contactPhone, setContactPhone] = useState('+91 98765 43210');
   const [contactAddress, setContactAddress] = useState('Mumbai, Maharashtra, India');
 

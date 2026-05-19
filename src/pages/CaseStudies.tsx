@@ -80,7 +80,7 @@ export default function CaseStudies() {
       <SEOHead
         title="Case Studies | Adviserve — HR, Recruitment, Legal & Business Advisory Results"
         description="Real engagements. Real outcomes. Every case study shows how integrating multiple practices under one team delivers results that siloed vendors cannot."
-        canonical="https://adviserve.in/case-studies"
+        canonical="https://adviserve.org.in/case-studies"
       />
 
       <EngineeringHero

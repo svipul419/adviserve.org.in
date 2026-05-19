@@ -204,7 +204,7 @@ export default function DPDPAssessment() {
 
   return (
     <div className="flex flex-col min-h-screen" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Free DPDP Self-Assessment | Adviserve" description="Fifteen questions across five domains. Fifteen minutes. Structured output. No call required." canonical="https://adviserve.in/dpdp-assessment" />
+      <SEOHead title="Free DPDP Self-Assessment | Adviserve" description="Fifteen questions across five domains. Fifteen minutes. Structured output. No call required." canonical="https://adviserve.org.in/dpdp-assessment" />
 
       {/* Intro */}
       {screen === 'intro' && (

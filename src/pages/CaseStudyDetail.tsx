@@ -33,7 +33,7 @@ export default function CaseStudyDetail() {
       <SEOHead
         title={`${study.company} — case study | Adviserve`}
         description={study.subtitle}
-        canonical={`https://adviserve.in/case-studies/${study.slug}`}
+        canonical={`https://adviserve.org.in/case-studies/${study.slug}`}
       />
 
       <EngineeringHero

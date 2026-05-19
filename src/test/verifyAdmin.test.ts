@@ -17,7 +17,7 @@ describe('verifyAdmin', () => {
       ...originalEnv,
       SUPABASE_URL: 'https://supabase.example',
       SUPABASE_ANON_KEY: 'anon-key',
-      ADMIN_EMAILS: 'allow@adviserve.in,boss@adviserve.in',
+      ADMIN_EMAILS: 'allow@adviserve.org.in,boss@adviserve.org.in',
     };
   });
 

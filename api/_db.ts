@@ -33,12 +33,15 @@ export function isValidSlug(value: string | null): value is string {
 // EXTRA_ALLOWED_ORIGINS (comma-separated) on environments that need
 // additional hosts (e.g. PR preview subdomains).
 const DEFAULT_ALLOWED_ORIGINS = [
+  'https://adviserve.org.in',
+  'https://www.adviserve.org.in',
   'https://adviserve.in',
   'https://www.adviserve.in',
   'https://adviserve-website.vercel.app',
   'https://www.adviserve.com',
   'http://localhost:5173', // local dev
   'http://localhost:4173', // local preview
+  'http://localhost:5175', // alternate dev when 5173/5174 are taken
 ];
 const ALLOWED_ORIGINS = [
   ...DEFAULT_ALLOWED_ORIGINS,

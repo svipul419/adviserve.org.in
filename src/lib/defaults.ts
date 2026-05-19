@@ -773,7 +773,7 @@ export const DEFAULT_HOME_CMS: Record<string, string> = {
   // SEO
   meta_title: 'Adviserve · One firm. Seven disciplines. One standard.',
   meta_description: 'Most enterprises buy compliance from one firm, security from another, talent from a third. Adviserve does all of it, to one standard. ISO 9001:2015. ISO/IEC 20000-1. ISO/IEC 27001.',
-  canonical_url: 'https://adviserve.in/',
+  canonical_url: 'https://adviserve.org.in/',
   og_image: '/adviserve-logo.png',
 
   // 00.01° Hero — §HOME-HERO

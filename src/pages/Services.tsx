@@ -47,7 +47,7 @@ export default function Services() {
       <SEOHead
         title="Services · Seven disciplines | Adviserve"
         description="Seven disciplines. One firm. Cybersecurity, Compliance & RegTech, HR Services, IT Consulting, Legal Consulting, SaaS Products, Corporate Training — anchored by three ISO certifications."
-        canonical="https://adviserve.in/services"
+        canonical="https://adviserve.org.in/services"
       />
 
       {/* ═══ HERO — Cover Sheet for the practices dossier ═══ */}

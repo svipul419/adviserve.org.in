@@ -34,7 +34,7 @@ const DATA_CARDS = [
 export default function Trust() {
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Trust · Audited standards behind every engagement | Adviserve" description="Three audited certifications. One way of working. Documented at every gate." canonical="https://adviserve.in/trust" />
+      <SEOHead title="Trust · Audited standards behind every engagement | Adviserve" description="Three audited certifications. One way of working. Documented at every gate." canonical="https://adviserve.org.in/trust" />
 
       <EngineeringHero
         eyebrow="When procurement asks, send this"
@@ -93,7 +93,7 @@ export default function Trust() {
           </div>
           <FadeUp delay={0.25}>
             <p className="mt-8 text-[14px] text-white/70">
-              Sub-processor list and full security posture available on request — <a href="mailto:trust@adviserve.in" className="font-mono text-[12px] tracking-[0.14em] text-white hover:text-accent-blue transition-colors">trust@adviserve.in</a>
+              Sub-processor list and full security posture available on request — <a href="mailto:trust@adviserve.org.in" className="font-mono text-[12px] tracking-[0.14em] text-white hover:text-accent-blue transition-colors">trust@adviserve.org.in</a>
             </p>
           </FadeUp>
         </div>
@@ -108,11 +108,11 @@ export default function Trust() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="rounded-xl border border-white/10 bg-ink-base p-6">
               <p className="font-display text-[16px] uppercase tracking-[0.04em] text-white">Security questionnaires and due diligence</p>
-              <a href="mailto:trust@adviserve.in" className="mt-3 inline-block font-mono text-[13px] tracking-[0.12em] text-white hover:text-accent-blue transition-colors">trust@adviserve.in</a>
+              <a href="mailto:trust@adviserve.org.in" className="mt-3 inline-block font-mono text-[13px] tracking-[0.12em] text-white hover:text-accent-blue transition-colors">trust@adviserve.org.in</a>
             </div>
             <div className="rounded-xl border border-white/10 bg-ink-base p-6">
               <p className="font-display text-[16px] uppercase tracking-[0.04em] text-white">DPDP-specific inquiries</p>
-              <a href="mailto:compliance@adviserve.in" className="mt-3 inline-block font-mono text-[13px] tracking-[0.12em] text-white hover:text-accent-blue transition-colors">compliance@adviserve.in</a>
+              <a href="mailto:compliance@adviserve.org.in" className="mt-3 inline-block font-mono text-[13px] tracking-[0.12em] text-white hover:text-accent-blue transition-colors">compliance@adviserve.org.in</a>
             </div>
           </div>
           <FadeUp delay={0.2}>

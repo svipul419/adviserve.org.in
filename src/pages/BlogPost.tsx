@@ -194,10 +194,10 @@ export default function BlogPost() {
       <SEOHead
         title={post.title}
         description={post.excerpt || `Read ${post.title} on the Adviserve blog.`}
-        canonical={`https://adviserve.in/blog/${post.slug}`}
+        canonical={`https://adviserve.org.in/blog/${post.slug}`}
         ogImage={post.image_url || undefined}
         ogType="article"
-        structuredData={generateBlogPostSchema(post, 'https://adviserve.in')}
+        structuredData={generateBlogPostSchema(post, 'https://adviserve.org.in')}
       />
       <EngineeringHero
         eyebrow={post.category || 'Article'}

@@ -10,7 +10,7 @@ export const config = { runtime: 'edge' };
 // ALLOWED_ORIGINS list in api/_db.ts. Override via env var on each
 // environment (production / preview / staging) so canonicals match the
 // host the page is actually served from.
-const SITE = process.env.SITE_URL || 'https://adviserve.in';
+const SITE = process.env.SITE_URL || 'https://adviserve.org.in';
 
 const staticPages = [
   { loc: '/', priority: '1.0', changefreq: 'weekly' },

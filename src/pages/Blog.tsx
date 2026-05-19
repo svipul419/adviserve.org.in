@@ -207,7 +207,7 @@ export default function Blog() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      <SEOHead title="Blog" description={content.blog_seo_description || 'Practical guides on hiring, team building, HR strategy, and workforce trends — written by the people who do this work every day.'} canonical="https://adviserve.in/blog" />
+      <SEOHead title="Blog" description={content.blog_seo_description || 'Practical guides on hiring, team building, HR strategy, and workforce trends — written by the people who do this work every day.'} canonical="https://adviserve.org.in/blog" />
       <EngineeringHero
         eyebrow="Blog"
         title={content.blog_page_title || 'Insights & Resources'}

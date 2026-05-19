@@ -55,7 +55,7 @@ export default function Insights() {
 
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Insights · Working notes from the practice | Adviserve" description="Articles, briefings, and assessments from the practice. Written for executives who need the answer in three paragraphs, not three pages." canonical="https://adviserve.in/insights" />
+      <SEOHead title="Insights · Working notes from the practice | Adviserve" description="Articles, briefings, and assessments from the practice. Written for executives who need the answer in three paragraphs, not three pages." canonical="https://adviserve.org.in/insights" />
 
       {/* Hero */}
       <EngineeringHero

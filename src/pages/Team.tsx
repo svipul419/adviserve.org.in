@@ -27,7 +27,7 @@ const PRACTICE_LEADS: Array<{ name: string; role: string; bio: string; linkedin:
 export default function Team() {
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Team · The practitioners behind the practice | Adviserve" description="Adviserve is led by practitioners — people who ran the work for a decade before incorporating the firm." canonical="https://adviserve.in/team" />
+      <SEOHead title="Team · The practitioners behind the practice | Adviserve" description="Adviserve is led by practitioners — people who ran the work for a decade before incorporating the firm." canonical="https://adviserve.org.in/team" />
 
       <EngineeringHero
         eyebrow="You will talk to these people — not a junior"

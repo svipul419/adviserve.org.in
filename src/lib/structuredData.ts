@@ -5,7 +5,7 @@ export function generateOrganizationSchema(settings: Record<string, string>) {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     name: settings.business_name || 'Adviserve',
-    url: settings.website || 'https://adviserve.in',
+    url: settings.website || 'https://adviserve.org.in',
     logo: settings.default_og_image || '',
     description: 'Integrated business advisory firm offering recruitment, HR consulting, legal compliance, business strategy, corporate training, and IT solutions across India.',
     foundingDate: '2017',
@@ -14,7 +14,7 @@ export function generateOrganizationSchema(settings: Record<string, string>) {
     contactPoint: {
       '@type': 'ContactPoint',
       telephone: settings.phone || '',
-      email: settings.email || 'info@adviserve.in',
+      email: settings.email || 'info@adviserve.org.in',
       contactType: 'customer service',
     },
     hasOfferCatalog: {
@@ -153,7 +153,7 @@ export function generateWebSiteSchema(settings: Record<string, string>) {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: settings.business_name || 'Adviserve',
-    url: settings.website || 'https://adviserve.in',
+    url: settings.website || 'https://adviserve.org.in',
   };
 }
 

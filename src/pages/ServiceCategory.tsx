@@ -63,7 +63,7 @@ export default function ServiceCategory() {
       <SEOHead
         title={`${detail.eyebrow.charAt(0) + detail.eyebrow.slice(1).toLowerCase()} · ${detail.h1Line1} ${detail.h1Line2} | Adviserve`}
         description={detail.subtitle}
-        canonical={`https://adviserve.in/services/${detail.slug}`}
+        canonical={`https://adviserve.org.in/services/${detail.slug}`}
       />
 
       <EngineeringHero

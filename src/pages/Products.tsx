@@ -34,7 +34,7 @@ export default function Products() {
       <SEOHead
         title="Products | Adviserve People, Adviserve Hire, Adviserve Comply"
         description="A modular SaaS layer for enterprise workflows. HRMS, candidate screening, and DPDP compliance — built on one architecture. ISO 27001-aligned."
-        canonical="https://adviserve.in/products"
+        canonical="https://adviserve.org.in/products"
       />
 
       <EngineeringHero

@@ -99,7 +99,7 @@ export default function NewsletterArchive() {
       <SEOHead
         title="Newsletter Archive"
         description="Browse past editions of the Adviserve newsletter — insights on HR, hiring, compliance, and workforce strategy."
-        canonical="https://adviserve.in/newsletters"
+        canonical="https://adviserve.org.in/newsletters"
       />
 
       <EngineeringHero

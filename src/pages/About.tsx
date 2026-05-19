@@ -23,7 +23,7 @@ export default function About() {
       <SEOHead
         title="About Adviserve · Why this firm exists"
         description="Adviserve was incorporated in February 2026 to undo the fragmentation enterprises have been paying for — one firm, seven disciplines, one operating standard."
-        canonical="https://adviserve.in/about"
+        canonical="https://adviserve.org.in/about"
       />
 
       {/* 00.01° HERO — Engineering blueprint cover sheet */}

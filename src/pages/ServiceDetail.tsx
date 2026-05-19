@@ -143,13 +143,13 @@ export default function ServiceDetail() {
       <SEOHead
         title={service.title}
         description={service.description || ''}
-        canonical={`https://adviserve.in/services/${service.slug || slug}`}
+        canonical={`https://adviserve.org.in/services/${service.slug || slug}`}
         structuredData={[
-          generateServiceSchema({ title: service.title, description: service.description || '', slug: service.slug || slug || '' }, 'https://adviserve.in'),
+          generateServiceSchema({ title: service.title, description: service.description || '', slug: service.slug || slug || '' }, 'https://adviserve.org.in'),
           generateBreadcrumbSchema([
-            { name: 'Home', url: 'https://adviserve.in' },
-            { name: 'Services', url: 'https://adviserve.in/services' },
-            { name: service.title, url: `https://adviserve.in/services/${service.slug || slug}` },
+            { name: 'Home', url: 'https://adviserve.org.in' },
+            { name: 'Services', url: 'https://adviserve.org.in/services' },
+            { name: service.title, url: `https://adviserve.org.in/services/${service.slug || slug}` },
           ]),
         ]}
       />

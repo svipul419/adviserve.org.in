@@ -228,7 +228,7 @@ export default function Contact() {
       <SEOHead
         title="Contact Adviserve | Free 30-Minute Business Advisory Consultation"
         description="Get in touch with Adviserve for recruitment, HR, legal, strategy, training, or IT consulting. Book a free consultation or send us a message — response within 24 hours."
-        canonical="https://adviserve.in/contact"
+        canonical="https://adviserve.org.in/contact"
         structuredData={generateFAQSchema(faqs.map(f => ({ question: f.question, answer: f.answer })))}
       />
 

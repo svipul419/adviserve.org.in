@@ -107,7 +107,7 @@ export default function ProductDetail() {
 
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title={detail.seoTitle} description={detail.seoDescription} canonical={`https://adviserve.in/products/${slug}`} />
+      <SEOHead title={detail.seoTitle} description={detail.seoDescription} canonical={`https://adviserve.org.in/products/${slug}`} />
 
       <EngineeringHero
         eyebrow={detail.eyebrow}

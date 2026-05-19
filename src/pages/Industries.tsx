@@ -19,7 +19,7 @@ const INDUSTRIES = [
 export default function Industries() {
   return (
     <div className="flex flex-col" style={{ background: '#FBFDFF' }}>
-      <SEOHead title="Industries · Sector contexts | Adviserve" description="Disciplines are universal. Contexts are not. We engage with sector context — not without it." canonical="https://adviserve.in/industries" />
+      <SEOHead title="Industries · Sector contexts | Adviserve" description="Disciplines are universal. Contexts are not. We engage with sector context — not without it." canonical="https://adviserve.org.in/industries" />
 
       {/* Hero — engineering cover sheet */}
       <EngineeringHero
